@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+//@RestController
 public class HelloController {
 
 	// This method returns a user as serialized JSON along with an HTTP status of OK
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ResponseEntity<User> index() {
         User myUser = new User(123, "Henry");
-        
+
         return new ResponseEntity<User>(myUser, HttpStatus.OK);
     }
 
