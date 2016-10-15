@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.unomaha.oc.database.StoryRowMapper;
-import edu.unomaha.oc.domain.Story;
+import edu.unomaha.oc.database.CharacterRowMapper;
+import edu.unomaha.oc.domain.Character;
 
 @RestController
 public class CharacterController {
@@ -32,7 +32,7 @@ public class CharacterController {
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("name", name);
 		
-		List<character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM story WHERE name LIKE '%:name%'", paramMap, new CharacterRowMapper()); 
+		List<Character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM story WHERE name LIKE '%:name%'", paramMap, new CharacterRowMapper()); 
 		
 		return new ResponseEntity<List<Character>>(characters, HttpStatus.OK);
 	}

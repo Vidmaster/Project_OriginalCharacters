@@ -5,12 +5,12 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import edu.unomaha.oc.domain.Story;
+import edu.unomaha.oc.domain.Character;
 
 public class CharacterRowMapper implements RowMapper<Character> {
 
 	@Override
-	public Story mapRow(ResultSet rs, int row) throws SQLException {
+	public Character mapRow(ResultSet rs, int row) throws SQLException {
 		int id = rs.getInt("id");
 		int owner = rs.getInt("owner");
 		String name = rs.getString("name");
