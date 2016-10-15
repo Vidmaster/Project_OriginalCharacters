@@ -20,7 +20,7 @@ public class HelloController {
 	// This method returns a user as serialized JSON along with an HTTP status of OK
     @RequestMapping(value="/helloworld", method=RequestMethod.GET)
     public ResponseEntity<User> index() {
-        User myUser = new User(123, "Henry");
+    	User myUser = new User(123, "Henry", "henry@oc.io", "it's me", 123, 1, "passhhhword");
 
         return new ResponseEntity<User>(myUser, HttpStatus.OK);
     }
