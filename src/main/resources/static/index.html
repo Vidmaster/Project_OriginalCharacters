@@ -1,4 +1,4 @@
-<html ng-app="dashboardApp">
+<html ng-app="originalCharactersApp">
 <head>
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge"/>
@@ -21,8 +21,9 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/webjars/angular/angular.js"></script>
   
-	<script src="scripts/dashboard/dashboard-module.js"></script>
-	<script src="scripts/dashboard/dashboard-component.js"></script>
+	<script src="app.module.js"></script>
+	<script src="scripts/dashboard/dashboard.module.js"></script>
+	<script src="scripts/dashboard/dashboard.component.js"></script>
 </head>
 <body>
 <!-- Navigation -->
@@ -50,15 +51,6 @@
                     <li>
                     	<a href="#register">Login</a>
                    	</li>
-<!--                     <li ng-show="home.authenticated"> -->
-<!--                     	<a>Logged in as {{home.user}}</a> -->
-<!--                     </li> -->
-<!--                     <li ng-show="home.authenticated"> -->
-<!--                     	<a href="#" ng-click="home.logout()" >Logout</a> -->
-<!--                     </li> -->
-<!--                     <li ng-show="!home.authenticated"> -->
-<!--                     	<a href="#register">Login</a> -->
-<!--                     </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -154,7 +146,7 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
 	                    <h1>Ready to get started?</h1>
-	                	<form id=login>
+	                	<form id=login action="/api/login">
 	                		<h3>Login:</h3>
 	                		<div>Username: <input id="username"></div>
 	                		<div>Password: <input id="password" type="password"></div>
