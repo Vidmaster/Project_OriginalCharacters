@@ -1,6 +1,7 @@
 package edu.unomaha.oc.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -29,23 +30,26 @@ public class DashboardController {
 	
 	private static String STORY_FIELDS = "id, title, genre, owner, description, visible, inviteonly";
 	
-	@RequestMapping("/dashboard")
+	@RequestMapping("/api/dashboard")
 	public ResponseEntity<List<Story>> getDashboardStories(@RequestParam(value="number", defaultValue="5") int number) {
+		System.out.println("hey");
+		logger.debug("/api/dashboard");
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
 		
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("number", number);
 		
-		String sql = "SELECT TOP :number " + STORY_FIELDS
+		String sql = "SELECT " + STORY_FIELDS
 				+ " FROM story "
 				+ "WHERE visible=true "
-				+ "ORDER BY id DESC";
+				+ "ORDER BY id DESC "
+				+ "LIMIT :number";
 		try {
 			List<Story> stories = template.query(sql, paramMap, new StoryRowMapper());
-			
+			logger.info("stories = " + Arrays.toString(stories.toArray()));
 			return new ResponseEntity<List<Story>>(stories, HttpStatus.OK);
 		} catch (Exception ex) {
-			logger.debug("getDashboardStories(): Exception occurred: " + ex.getMessage());
+			logger.error("getDashboardStories(): Exception occurred: " + ex.getMessage());
 			return new ResponseEntity<List<Story>>(new ArrayList<Story>(), HttpStatus.OK);
 		}
 	}

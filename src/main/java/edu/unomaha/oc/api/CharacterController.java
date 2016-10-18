@@ -28,7 +28,7 @@ public class CharacterController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@RequestMapping(value="/characters", method=RequestMethod.GET)
+	@RequestMapping(value="/api/characters", method=RequestMethod.GET)
 	public ResponseEntity<List<Character>> searchCharactersByName(@RequestParam(value="name") String name) {
 		logger.debug("searchStoriesByTitle(): name=" + name);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -42,7 +42,7 @@ public class CharacterController {
 	}
 	
 	
-	@RequestMapping(value="/characters/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/api/characters/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Character> getCharacter(@PathVariable("id") int id) {
 		logger.debug("getCharacter(): id=" + id);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -53,7 +53,7 @@ public class CharacterController {
 		return new ResponseEntity<Character>(character, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/characters", method=RequestMethod.POST)
+	@RequestMapping(value="/api/characters", method=RequestMethod.POST)
 	public void saveStory() {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();

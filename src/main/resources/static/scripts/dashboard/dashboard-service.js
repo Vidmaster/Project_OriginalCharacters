@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('dashboard')
+angular.module('dashboardApp')
 	.factory('dashboardService', function ($http) {
 		return {
 			getDashboardContents: function() {
 				return $http({
 					method: 'GET',
-					url: "/dashboard"
+					url: "/api/dashboard"
 				}).then(function successCallback(response) {
 					if (config.DEBUG) { console.log('Success: ' + response); }
 					return response;

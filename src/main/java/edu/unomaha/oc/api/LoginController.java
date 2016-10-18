@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-    @RequestMapping("/user")
+    @RequestMapping("/api/user")
     public Principal user(Principal principal) {
     	logger.debug("user(): principal=" + principal);
         return principal;
     }
     
-    @RequestMapping(value="/login", method=RequestMethod.POST)
+    @RequestMapping(value="/api/login", method=RequestMethod.POST)
     public void login(@RequestParam("username") String user, @RequestParam("password") String pw) {
     	
     }

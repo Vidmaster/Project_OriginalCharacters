@@ -34,7 +34,7 @@ public class StoryController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@RequestMapping(value="/stories", method=RequestMethod.GET)
+	@RequestMapping(value="/api/stories", method=RequestMethod.GET)
 	public ResponseEntity<List<Story>> searchStoriesByTitle(HttpServletRequest request, @RequestParam(value="title") String title) {
 		logger.debug("searchStoriesByTitle(): title=" + title);
 		
@@ -48,7 +48,7 @@ public class StoryController {
 	}
 	
 	
-	@RequestMapping(value="/stories/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/api/stories/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Story> getStory(@PathVariable("id") int id) {
 		logger.debug("getStory(): id=" + id);
 		
@@ -59,7 +59,7 @@ public class StoryController {
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/stories", method=RequestMethod.PUT, consumes="application/json")
+	@RequestMapping(value="/api/stories", method=RequestMethod.PUT, consumes="application/json")
 	public ResponseEntity<Story> createStory(@RequestParam(value="owner") int owner, @RequestParam(value="title") String title, 
 			@RequestParam(value="description", defaultValue="") String description, @RequestParam(value="genre", defaultValue="") String genre,
 			@RequestParam(value="visible", defaultValue="true") boolean visible, @RequestParam(value="inviteOnly", defaultValue="false") boolean inviteOnly) {
@@ -76,7 +76,7 @@ public class StoryController {
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/stores/{id}", method=RequestMethod.POST, consumes="application/json")
+	@RequestMapping(value="/api/stores/{id}", method=RequestMethod.POST, consumes="application/json")
 	public void updateStory(@PathVariable("id") int id) {
 		// TODO: Check authenticated user is authorized
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -86,7 +86,7 @@ public class StoryController {
 		template.update("UPDATE Story SET value=stuff WHERE id=:id", paramMap);
 	}
 	
-	@RequestMapping(value="/stores/{id}", method=RequestMethod.DELETE, consumes="application/json")
+	@RequestMapping(value="/api/stores/{id}", method=RequestMethod.DELETE, consumes="application/json")
 	public ResponseEntity<Object> deleteStory(HttpServletRequest request, @PathVariable("id") int id) throws AuthException {
 		// TODO: Check authenticated user owns the story
 		Story story = storyDao.read(id);	

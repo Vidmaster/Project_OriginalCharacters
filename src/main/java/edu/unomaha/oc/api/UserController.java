@@ -24,7 +24,7 @@ public class UserController {
 	@Autowired
 	private DataSource dataSource;
 	
-	@RequestMapping(value="/users", method=RequestMethod.GET)
+	@RequestMapping(value="/api/users", method=RequestMethod.GET)
 	public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam(value="username") String username) {
 		
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
@@ -37,7 +37,7 @@ public class UserController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/users/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/api/users/{id}", method=RequestMethod.GET)
 	public ResponseEntity<User> getUser(@PathVariable("id") int id) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
@@ -47,7 +47,7 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/users", method=RequestMethod.PUT)
+	@RequestMapping(value="/api/users", method=RequestMethod.PUT)
 	public void saveUser(@RequestParam(value="newuser") String newuser) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
@@ -56,7 +56,7 @@ public class UserController {
 		template.update("INSERT INTO User VALUES (:newuser)", paramMap);
 	}
 	
-	@RequestMapping(value="/users/{id}", method=RequestMethod.POST)
+	@RequestMapping(value="/api/users/{id}", method=RequestMethod.POST)
 	public void updateUser(@PathVariable(value="id") int id, @RequestParam(value="updates") String updates) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
