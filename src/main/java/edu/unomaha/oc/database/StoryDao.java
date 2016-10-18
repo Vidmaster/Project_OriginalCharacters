@@ -5,13 +5,13 @@ import java.util.List;
 import edu.unomaha.oc.domain.Story;
 
 public interface StoryDao {
-	public List<Story> search();
+	public List<Story> search(String title, int owner);
 	
 	public Story read(int id);
 	
-	public int update(int id);
+	public Number update(int id, Story story);
 	
-	public int create();
+	public Number create(Story story);
 	
-	public int delete(int id);
+	public void delete(int id);
 }

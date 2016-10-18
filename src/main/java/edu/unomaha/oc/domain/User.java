@@ -12,42 +12,55 @@ public class User {
 	public long getId() {
 		return id;
 	}
+	
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public int getFacebookId() {
 		return facebookId;
 	}
+	
 	public void setFacebookId(int facebookId) {
 		this.facebookId = facebookId;
 	}
+	
 	public long getSalt() {
 		return salt;
 	}
+	
 	public void setSalt(Long salt) {
 		this.salt = salt;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -67,6 +80,7 @@ public class User {
 		this.salt = salt;
 		this.password = password;
 	}
+	
 	public User() {
 		
 	}

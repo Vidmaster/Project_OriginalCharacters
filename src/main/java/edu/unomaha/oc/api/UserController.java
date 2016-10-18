@@ -26,7 +26,7 @@ public class UserController {
 	
 	@RequestMapping(value="/users", method=RequestMethod.GET)
 	public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam(value="username") String username) {
-		System.out.println("This is /users");
+		
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		
 		Map<String,Object> paramMap = new HashMap<>();
@@ -47,7 +47,7 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/users", method=RequestMethod.POST)
+	@RequestMapping(value="/users", method=RequestMethod.PUT)
 	public void saveUser(@RequestParam(value="newuser") String newuser) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
@@ -56,8 +56,8 @@ public class UserController {
 		template.update("INSERT INTO User VALUES (:newuser)", paramMap);
 	}
 	
-	@RequestMapping(value="/users", method=RequestMethod.POST)
-	public void updateUser(@RequestParam(value="id") int id, @RequestParam(value="updates") String updates) {
+	@RequestMapping(value="/users/{id}", method=RequestMethod.POST)
+	public void updateUser(@PathVariable(value="id") int id, @RequestParam(value="updates") String updates) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("id", id);

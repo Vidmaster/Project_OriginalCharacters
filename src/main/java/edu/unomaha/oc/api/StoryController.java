@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.oc.database.StoryDao;
-import edu.unomaha.oc.database.StoryRowMapper;
 import edu.unomaha.oc.domain.Story;
+import edu.unomaha.oc.utilities.AuthorizationUtilities;
 
 @RestController
 public class StoryController {
@@ -32,19 +32,15 @@ public class StoryController {
 	@Autowired
 	private StoryDao storyDao;
 	
-	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value="/stories", method=RequestMethod.GET)
-	public ResponseEntity<List<Story>> searchStoriesByTitle(@RequestParam(value="title") String title) {
+	public ResponseEntity<List<Story>> searchStoriesByTitle(HttpServletRequest request, @RequestParam(value="title") String title) {
 		logger.debug("searchStoriesByTitle(): title=" + title);
 		
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+		int owner = AuthorizationUtilities.getActiveUser(request);
 		
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("title", title);
-		
-		List<Story> stories = template.query("SELECT id, title, genre, owner, description, visible, inviteonly FROM story WHERE title LIKE '%:title%' and visible=true", paramMap, new StoryRowMapper()); 
+		List<Story> stories = storyDao.search(title, owner);
 		
 		logger.debug("searchStoriesByTitle(): return=" + stories.toString());
 		
@@ -54,23 +50,30 @@ public class StoryController {
 	
 	@RequestMapping(value="/stories/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Story> getStory(@PathVariable("id") int id) {
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+		logger.debug("getStory(): id=" + id);
 		
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("id", id);
+		Story story = storyDao.read(id);
 		
-		Story story = template.queryForObject("select id, title, genre, owner, description, visible, inviteonly from story where id=:id", paramMap, new StoryRowMapper());
+		logger.debug("getStory(): return=" + story.toString()); 
 		
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/stories", method=RequestMethod.PUT, consumes="application/json")
-	public void createStory() {
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("value", "stuff");
+	public ResponseEntity<Story> createStory(@RequestParam(value="owner") int owner, @RequestParam(value="title") String title, 
+			@RequestParam(value="description", defaultValue="") String description, @RequestParam(value="genre", defaultValue="") String genre,
+			@RequestParam(value="visible", defaultValue="true") boolean visible, @RequestParam(value="inviteOnly", defaultValue="false") boolean inviteOnly) {
+		logger.debug("createStory(): owner=" + owner + ", title=\"" + title + "\", description=\"" + description 
+				+ "\", genre=\"" + genre + "\", visible=" + visible + ", inviteOnly=" + inviteOnly);
 		
-		template.update("insert into Story values (....)", paramMap);
+		Story story = new Story(-1, owner, title, description, genre, visible, inviteOnly);
+		
+		Number storyId = storyDao.create(story);
+		story.setId(storyId.intValue());
+		
+		logger.debug("createStory(): id=" + storyId);
+		
+		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/stores/{id}", method=RequestMethod.POST, consumes="application/json")
@@ -88,11 +91,7 @@ public class StoryController {
 		// TODO: Check authenticated user owns the story
 		Story story = storyDao.read(id);	
 		if (story.getOwner() == Integer.parseInt(request.getHeader("userId"))) {
-			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-			Map<String,Object> paramMap = new HashMap<>();
-			paramMap.put("id", id);
-			
-			template.update("DELETE FROM Story WHERE id=:id", paramMap);
+			storyDao.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);

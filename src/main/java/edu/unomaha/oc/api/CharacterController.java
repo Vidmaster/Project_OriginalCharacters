@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +26,17 @@ public class CharacterController {
 	@Autowired
 	private DataSource dataSource;
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@RequestMapping(value="/characters", method=RequestMethod.GET)
-	public ResponseEntity<List<Character>> searchStoriesByTitle(@RequestParam(value="name") String name) {
-		System.out.println("This is /character");
+	public ResponseEntity<List<Character>> searchCharactersByName(@RequestParam(value="name") String name) {
+		logger.debug("searchStoriesByTitle(): name=" + name);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		
 		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("name", name);
+		paramMap.put("name", '%' + name + '%');
 		
-		List<Character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM story WHERE name LIKE '%:name%'", paramMap, new CharacterRowMapper()); 
+		List<Character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM story WHERE name LIKE ':name'", paramMap, new CharacterRowMapper()); 
 		
 		return new ResponseEntity<List<Character>>(characters, HttpStatus.OK);
 	}
@@ -40,6 +44,7 @@ public class CharacterController {
 	
 	@RequestMapping(value="/characters/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Character> getCharacter(@PathVariable("id") int id) {
+		logger.debug("getCharacter(): id=" + id);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("id", id);

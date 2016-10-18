@@ -11,34 +11,56 @@ public class Character {
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public int getOwner() {
 		return owner;
 	}
+	
 	public void setOwner(int owner) {
 		this.owner = owner;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getAppearance() {
 		return appearance;
 	}
+	
 	public void setAppearance(String appearance) {
 		this.appearance = appearance;
 	}
-	public String getNotest () {
+	
+	public String getPersonality() {
+		return personality;
+	}
+	
+	public void setPersonality(String personality) {
+		this.personality = personality;
+	}	
+	
+	public String getNotes () {
 		return notes;
 	}
+	
 	public void setNotes (String notes) {
 		this.notes = notes;
 	}
 
+	@Override
+	public String toString() {
+		return "Character [id=" + id + ", owner=" + owner + ", name=" + name + "]";
+	}
+	
 	public Character(int id, int owner, String name, String appearance, String personality, String notes) {
 		this.id = id;
 		this.owner = owner;
