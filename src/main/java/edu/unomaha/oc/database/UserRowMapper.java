@@ -16,10 +16,9 @@ public class UserRowMapper implements RowMapper<User> {
 		String email = rs.getString("email");
 		String description = rs.getString("description");
 		int facebookId = rs.getInt("facebookId");
-		long salt = rs.getLong("salt");
 		String password = rs.getString("password");
 		  
-		return new User(id, username, email, description, facebookId, salt, password);
+		return new User(id, username, email, description, facebookId, password);
 	}
 
 }

@@ -36,7 +36,7 @@ public class CharacterController {
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("name", '%' + name + '%');
 		
-		List<Character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM story WHERE name LIKE ':name'", paramMap, new CharacterRowMapper()); 
+		List<Character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM character WHERE name LIKE ':name'", paramMap, new CharacterRowMapper()); 
 		
 		return new ResponseEntity<List<Character>>(characters, HttpStatus.OK);
 	}
@@ -49,17 +49,17 @@ public class CharacterController {
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("id", id);
 		
-		Character character = template.queryForObject("select id, name, appearance, personality, notes from story where id=:id", paramMap, new CharacterRowMapper());
+		Character character = template.queryForObject("SELECT id, name, appearance, personality, notes FROM character WHERE id=:id", paramMap, new CharacterRowMapper());
 		return new ResponseEntity<Character>(character, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/api/characters", method=RequestMethod.POST)
-	public void saveStory() {
+	public void saveCharacter() {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("value", "stuff");
 		
-		template.update("insert into Character values (....)", paramMap);
+		template.update("insert into character values (....)", paramMap);
 	}
 	
 	

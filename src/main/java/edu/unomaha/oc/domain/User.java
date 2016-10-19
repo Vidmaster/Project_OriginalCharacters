@@ -6,7 +6,6 @@ public class User {
 	private String email;
 	private String description;
 	private int facebookId;
-	private long salt;
 	private String password;
 	
 	public long getId() {
@@ -49,14 +48,6 @@ public class User {
 		this.facebookId = facebookId;
 	}
 	
-	public long getSalt() {
-		return salt;
-	}
-	
-	public void setSalt(Long salt) {
-		this.salt = salt;
-	}
-	
 	public String getPassword() {
 		return password;
 	}
@@ -71,13 +62,12 @@ public class User {
 	}
 	
 	public User(long id, String username, String email, String description, 
-				int facebookId, long salt, String password) {
+				int facebookId, String password) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.description = description;
 		this.facebookId = facebookId;
-		this.salt = salt;
 		this.password = password;
 	}
 	

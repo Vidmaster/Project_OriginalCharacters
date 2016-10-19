@@ -59,7 +59,7 @@ public class StoryController {
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/api/stories", method=RequestMethod.PUT, consumes="application/json")
+	@RequestMapping(value="/api/stories", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Story> createStory(@RequestParam(value="owner") int owner, @RequestParam(value="title") String title, 
 			@RequestParam(value="description", defaultValue="") String description, @RequestParam(value="genre", defaultValue="") String genre,
 			@RequestParam(value="visible", defaultValue="true") boolean visible, @RequestParam(value="inviteOnly", defaultValue="false") boolean inviteOnly) {
@@ -76,7 +76,7 @@ public class StoryController {
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/api/stores/{id}", method=RequestMethod.POST, consumes="application/json")
+	@RequestMapping(value="/api/stores/{id}", method=RequestMethod.PUT, consumes="application/json")
 	public void updateStory(@PathVariable("id") int id) {
 		// TODO: Check authenticated user is authorized
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);

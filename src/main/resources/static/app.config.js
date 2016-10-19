@@ -12,9 +12,12 @@ angular.module('originalCharactersApp')
 			template: '<oc-home></oc-home>'
 		}).
 		when('/register', {
-			controller: 'RegisterController',
+			controller: 'RegistrationController',
 			template: '<oc-register></oc-register>',
 			controllerAs: 'rc'
+		}).
+		when('/login', {
+			template: '<oc-login></oc-login>'
 		}).
 		when('/story/:storyId', {
 			template: '<story-detail></story-detail>'
@@ -26,4 +29,4 @@ angular.module('originalCharactersApp')
 	}
 ]);
 
-// /home for logged in user, /register, /character/:characterId, /searchResults, /createStory, /write?
+// /home for logged in user, /character/:characterId, /searchResults, /createStory, /write?
