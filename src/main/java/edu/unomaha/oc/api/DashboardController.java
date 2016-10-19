@@ -32,8 +32,7 @@ public class DashboardController {
 	
 	@RequestMapping("/api/dashboard")
 	public ResponseEntity<List<Story>> getDashboardStories(@RequestParam(value="number", defaultValue="5") int number) {
-		System.out.println("hey");
-		logger.debug("/api/dashboard");
+		logger.debug("getDashboardStories(): number=" + number);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
 		
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
@@ -46,7 +45,7 @@ public class DashboardController {
 				+ "LIMIT :number";
 		try {
 			List<Story> stories = template.query(sql, paramMap, new StoryRowMapper());
-			logger.info("stories = " + Arrays.toString(stories.toArray()));
+			logger.debug("stories = " + Arrays.toString(stories.toArray()));
 			return new ResponseEntity<List<Story>>(stories, HttpStatus.OK);
 		} catch (Exception ex) {
 			logger.error("getDashboardStories(): Exception occurred: " + ex.getMessage());

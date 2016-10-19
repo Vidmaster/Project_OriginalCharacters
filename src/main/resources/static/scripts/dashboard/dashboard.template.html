@@ -1,6 +1,6 @@
 <ul>
 	<li ng-repeat="story in $ctrl.stories">
-		<span><a href="story.html?id={{story.id}}">{{story.title}}: {{story.genre}}</a></span>
+		<span><a href="#!/story/{{story.id}}">{{story.title}}: {{story.genre}}</a></span>
 		<p>{{story.description.substr(0,100)}}</p>
 	</li>
 </ul>

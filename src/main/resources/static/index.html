@@ -20,180 +20,32 @@
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/webjars/angular/angular.js"></script>
-  
+	<script type="text/javascript" src="/webjars/angular-route/angular-route.js"></script>
+	
 	<script src="app.module.js"></script>
+	<script src="app.config.js"></script>
 	<script src="scripts/dashboard/dashboard.module.js"></script>
 	<script src="scripts/dashboard/dashboard.component.js"></script>
+	<script src="scripts/story-detail/story-detail.module.js"></script>
+	<script src="scripts/story-detail/story-detail.component.js"></script>
+	<script src="scripts/user/user-profile.module.js"></script>
+	<script src="scripts/user/user-profile.component.js"></script>
+	
+	<script src="scripts/index/index.module.js"></script>
+	<script src="scripts/index/index.component.js"></script>
 </head>
+
 <body>
-<!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-        <div class="container topnav">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand topnav" href="#">Original Characters</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#newStories">Newest Stories</a>
-                    </li>
-                    <li>
-                    	<a href="#register">Login</a>
-                   	</li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+	<!-- Navigation bar -->
+	<ng-include src="'/views/navbar.html'"></ng-include>
+	
+	<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+	
+	<!-- This is where the magic happens. Thanks AngularJS! -->
+	<div ng-view></div>
 
-	 <!-- Header -->
-    <div class="intro-header">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                        <h1>Original Characters</h1>
-                        <h3>CSCI 4830 Term Project</h3>
-                        <h3>Henry McNeil, Lucas Hartman, Micah Swab</h3>
-                        <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons">
-                            <li>
-                                <a href="https://github.com/Vidmaster/Project_OriginalCharacters" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.intro-header -->
-    
-	<a name="about"></a>
-    <div class="content-section-b">
-
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-lg-5 col-lg-offset-1 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">About Original Characters</h2>
-                    <p class="lead">
-                    Original Characters is a website all about collaborative storytelling. Start a story, create characters, and invite others to participate. 
-                    When others have your character appear in their contributions, you keep the final say over what your characters do and how they act.
-                    </p>
-                </div>
-                <div class="col-lg-5 col-sm-6">
-                    <img class="img-responsive" src="img/books.jpg" alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-b -->
-
-	<a name="newStories"></a>
-    <div class="content-section-a">
-
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6" id="latestStories">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">Latest Stories</h2>
-                    
-                    <latest-stories></latest-stories>
-                    
-                </div>
-                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="img/writing.jpg" alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-a -->
-    
-    <a name="register"></a>
-    <div class="content-section-b">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-	                    <h1>Ready to get started?</h1>
-	                	<form id=login action="/api/login">
-	                		<h3>Login:</h3>
-	                		<div>Username: <input id="username"></div>
-	                		<div>Password: <input id="password" type="password"></div>
-	                		<button class="btn btn-primary" type=submit>Login</button>
-	                	</form>
-	                	<div>
-	                		<a href="register.html">Register a new user</a>
-	                	</div>
-					</div>
-                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="img/storytelling.jpg" alt="">
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-b -->
-
-	<!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="list-inline">
-                        <li>
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#newStories">New Stories</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#register">Login</a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted small">CSCI4830 - Original Characters 2016</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+	<!-- Page footer -->
+	<ng-include src="'/views/footer.html'"></ng-include>
+	
 </body>
 </html>

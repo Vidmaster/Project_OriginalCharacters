@@ -1,4 +1,9 @@
 angular.module('originalCharactersApp', 
 		[
-		 'dashboardApp'
+		 'dashboard',
+		 'storyDetail',
+		 'ocIndex',
+		 'userProfile',
+		 'register',
+		 'ngRoute'
 		 ]);

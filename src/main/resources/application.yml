@@ -11,4 +11,5 @@ facebook:
     userInfoUri: https://graph.facebook.com/me
 
 logging:
-  level: DEBUG
+  level: 
+    edu.unomaha.oc: DEBUG

@@ -1,0 +1,50 @@
+<div class="content-section-b">
+	<div class="container">
+		<div class="row">
+			<h1>{{$ctrl.user.username}}</h1>
+			<hr>
+			<div>
+				<h4>About {{$ctrl.user.username}}:</h4>
+				<span>{{$ctrl.user.description}}</span>
+			</div>
+			<hr>
+			
+			<h4>Characters:</h4>
+			<div ng-show="$ctrl.user.characters.length">
+				
+				<ul class="characters">
+				  <li ng-repeat="character in $ctrl.user.characters">
+					{{character.name}}
+				  </li>
+				</ul>
+			</div>
+			<div ng-show="!$ctrl.user.characters.length">
+				No characters yet!
+			</div>
+			<hr>
+			
+			<h4>Stories:</h4>
+			<div ng-show="$ctrl.user.stories.length">
+				<!-- Add some previous/next buttons here and implement a filter -->
+				<div ng-repeat="contribution in $ctrl.user.stories">
+					<h4>{{story.title}}</h4>
+					{{story.description}}
+				</div>
+			</div>
+			<div ng-show="!$ctrl.user.stories.length">
+				No stories yet!
+			</div>
+			<hr>
+			
+			<h4>Contributions:</h4>
+			<div ng-show="$ctrl.user.contributions.length">
+				<div ng-repeat="contribution in $ctrl.user.stories">
+					{{contribution.title}} in {{contribution.story.description}}
+				</div>
+			</div>
+			<div ng-show="!$ctrl.user.contributions.length">
+				No contributions yet!
+			</div>
+		</div>
+	</div>
+</div>
