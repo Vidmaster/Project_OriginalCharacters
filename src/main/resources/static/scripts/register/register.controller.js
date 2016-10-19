@@ -8,6 +8,12 @@ angular.module('register')
 				return;
 			}
 			
+			if ($scope.formData.password != $scope.formData.confirmPassword) {
+				$scope.success = false;
+				$scope.message = "Passwords do not match";
+				return;
+			}
+			
 			$http({
 				method: 'POST',
 				url: '/api/users',

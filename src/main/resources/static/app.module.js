@@ -5,5 +5,6 @@ angular.module('originalCharactersApp',
 		 'ocIndex',
 		 'userProfile',
 		 'register',
+		 'login',
 		 'ngRoute'
 		 ]);
