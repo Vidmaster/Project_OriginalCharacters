@@ -1,7 +1,7 @@
 angular.
   module('ocIndex').
   component('ocIndex', {
-    templateUrl: '/scripts/index/index.template.html'
+    templateUrl: '/js/index/index.template.html'
 //    controller: ['$http', 
 //      function IndexController($http) {
 //    	var self = this;

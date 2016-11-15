@@ -8,7 +8,6 @@ create table users (
   email varchar(100) not null,
   description varchar (4000),
   facebookId int,
-  salt bigint,
   password varchar(60),
   unique (username),
   primary key (id)
@@ -25,3 +24,12 @@ create table story (
 	primary key (id)
 );
 
+create table characters (
+	id int not null auto_increment,
+	owner int not null references users(id),
+	name varchar(250) not null,
+	appearance text,
+	personality text,
+	notes text,
+	primary key (id)
+);

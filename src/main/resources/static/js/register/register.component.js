@@ -1,5 +1,5 @@
 angular.
   module('register').
   component('ocRegister', {
-    templateUrl: '/scripts/register/register.template.html',
+    templateUrl: '/js/register/register.template.html',
   });

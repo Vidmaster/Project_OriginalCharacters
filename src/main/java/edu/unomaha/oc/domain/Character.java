@@ -1,5 +1,6 @@
 package edu.unomaha.oc.domain;
 
+// TODO: Rename to OriginalCharacter so this doesn't clash with java.lang.Character
 public class Character {
 	private int id;
 	private int owner;

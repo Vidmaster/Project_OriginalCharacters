@@ -3,7 +3,7 @@
 angular.
   module('dashboard').
   component('latestStories', {
-    templateUrl: '/scripts/dashboard/dashboard.template.html',
+    templateUrl: '/js/dashboard/dashboard.template.html',
     controller: ['$http', 
       function LatestStoriesController($http) {
     	var self = this;

@@ -1,7 +1,7 @@
 angular.
   module('storyDetail').
   component('storyDetail', {
-    templateUrl: '/scripts/story-detail/story-detail.template.html',
+    templateUrl: '/js/story-detail/story-detail.template.html',
     controller: ['$http', '$routeParams',
       function StoryDetailController($http, $routeParams) {
     	var self = this;

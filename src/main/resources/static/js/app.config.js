@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('originalCharactersApp')
-	.config(['$locationProvider', '$routeProvider', 
-	  function config($locationProvider, $routeProvider) {
+	.config(['$locationProvider', '$routeProvider', '$httpProvider',
+	  function config($locationProvider, $routeProvider, $httpProvider) {
 		$locationProvider.hashPrefix('!');
 		
 		$routeProvider.when('/', {
@@ -17,7 +17,9 @@ angular.module('originalCharactersApp')
 			controllerAs: 'rc'
 		}).
 		when('/login', {
-			template: '<oc-login></oc-login>'
+			template: '<oc-login></oc-login>',
+			controller: 'navigation',
+			controllerAs: 'controller'
 		}).
 		when('/story/:storyId', {
 			template: '<story-detail></story-detail>'
@@ -26,6 +28,8 @@ angular.module('originalCharactersApp')
 			template: '<user-profile></user-profile>'
 		}).
 		otherwise('/');
+		
+		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	}
 ]);
 

@@ -1,7 +1,7 @@
 angular.
   module('userProfile').
   component('userProfile', {
-    templateUrl: '/scripts/user/user-profile.template.html',
+    templateUrl: '/js/user/user-profile.template.html',
     controller: ['$http', '$routeParams',
       function UserProfileController($http, $routeParams) {
     	var self = this;

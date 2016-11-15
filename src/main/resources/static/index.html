@@ -16,30 +16,37 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <style type="text/css">
+		[ng\:cloak], [ng-cloak], .ng-cloak {
+			display: none !important;
+		}
+	</style>
     
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/webjars/angular/angular.js"></script>
 	<script type="text/javascript" src="/webjars/angular-route/angular-route.js"></script>
 	
-	<script src="app.module.js"></script>
-	<script src="app.config.js"></script>
-	<script src="scripts/dashboard/dashboard.module.js"></script>
-	<script src="scripts/dashboard/dashboard.component.js"></script>
-	<script src="scripts/story-detail/story-detail.module.js"></script>
-	<script src="scripts/story-detail/story-detail.component.js"></script>
-	<script src="scripts/user/user-profile.module.js"></script>
-	<script src="scripts/user/user-profile.component.js"></script>
-	<script src="scripts/register/register.module.js"></script>
-	<script src="scripts/register/register.component.js"></script>
-	<script src="scripts/register/register.controller.js"></script>
-	<script src="scripts/login/login.module.js"></script>
-	<script src="scripts/login/login.component.js"></script>
-	<script src="scripts/index/index.module.js"></script>
-	<script src="scripts/index/index.component.js"></script>
+	<script src="js/app.module.js"></script>
+	<script src="js/app.config.js"></script>
+	<script src="js/nav.js"></script>
+	<script src="js/dashboard/dashboard.module.js"></script>
+	<script src="js/dashboard/dashboard.component.js"></script>
+	<script src="js/story-detail/story-detail.module.js"></script>
+	<script src="js/story-detail/story-detail.component.js"></script>
+	<script src="js/user/user-profile.module.js"></script>
+	<script src="js/user/user-profile.component.js"></script>
+	<script src="js/register/register.module.js"></script>
+	<script src="js/register/register.component.js"></script>
+	<script src="js/register/register.controller.js"></script>
+	<script src="js/login/login.module.js"></script>
+	<script src="js/login/login.controller.js"></script>
+	<script src="js/login/login.component.js"></script>
+	<script src="js/index/index.module.js"></script>
+	<script src="js/index/index.component.js"></script>
 </head>
 
-<body>
+<body ng-cloak class="ng-cloak">
 	<!-- Navigation bar -->
 	<ng-include src="'/views/navbar.html'"></ng-include>
 	
