@@ -28,9 +28,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic()
-			.and()
-				.authorizeRequests().antMatchers("/index.html", "/**", "/webjars/**", "/js/**", "/font-awesome/**", 
+		http
+			.authorizeRequests().antMatchers("/index.html", "/**", "/webjars/**", "/js/**", "/font-awesome/**", 
 						"/css/**", "/views/**", "/img/**",
 						"/api/dashboard").permitAll()
 			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());

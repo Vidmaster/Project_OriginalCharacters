@@ -6,6 +6,5 @@ angular.module('originalCharactersApp',
 		 'userProfile',
 		 'register',
 		 'login',
-		 'nav',
 		 'ngRoute'
 		 ]);
