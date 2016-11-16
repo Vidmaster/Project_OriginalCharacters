@@ -1,6 +1,12 @@
 package edu.unomaha.oc.config;
 
+import java.io.IOException;
+
 import javax.servlet.Filter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -14,26 +20,74 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests().antMatchers("/index.html", "/**", "/webjars/**", "/js/**", "/font-awesome/**", 
-						"/css/**", "/views/**", "/img/**",
-						"/api/dashboard").permitAll()
+		http.httpBasic().and()
+			.authorizeRequests().antMatchers("/index.html", "/", "/webjars/**", "/js/**", "/font-awesome/**", 
+						"/css/**", "/views/**", "/img/**", "/#!/**", "/login",
+						"/api/**").permitAll().anyRequest().authenticated()
+//			.and()
+//				.formLogin().loginPage("/#!/login").successForwardUrl("/home")
 			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
+	
+	
+	
+	@Autowired
+	private DataSource dataSource;
+	
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth
+			.jdbcAuthentication()
+			.dataSource(dataSource)
+			.passwordEncoder(passwordEncoder)
+			.usersByUsernameQuery("select username, password, enabled from users where username = ?");
+//			.authoritiesByUsernameQuery("select things from stuff where username = ?");
+	}
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+//	@Autowired
+//	UserDetailsService userDetailsService;
+//	
+//	@Bean
+//	public UserDetailsService getUserDetailsService() {
+//		JdbcUserDetailsManager svc = new JdbcUserDetailsManager();
+//		svc.setDataSource(dataSource);
+//		svc.setUserExistsSql("SELECT Username FROM Users WHERE Username=? OR Email=?");
+//		
+//		return svc;
+//	}
+	
+	
 //  @Autowired
 //  OAuth2ClientContext oauth2ClientContext;
 //	

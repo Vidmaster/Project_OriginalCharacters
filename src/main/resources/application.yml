@@ -13,3 +13,4 @@ facebook:
 logging:
   level: 
     edu.unomaha.oc: DEBUG
+    org.springframework: DEBUG

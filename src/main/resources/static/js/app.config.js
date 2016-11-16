@@ -17,9 +17,7 @@ angular.module('originalCharactersApp')
 			controllerAs: 'rc'
 		}).
 		when('/login', {
-			template: '<oc-login></oc-login>',
-			controller: 'navigation',
-			controllerAs: 'controller'
+			template: '<oc-login></oc-login>'
 		}).
 		when('/story/:storyId', {
 			template: '<story-detail></story-detail>'

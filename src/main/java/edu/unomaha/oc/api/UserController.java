@@ -72,6 +72,7 @@ public class UserController {
 			paramMap.addValue("description", description);
 			
 			template.update("INSERT INTO users (username, password, email, description) VALUES (:username, :password, :email, :description)", paramMap, keyHolder);
+			template.update("INSERT INTO authorities (username, authority) VALUES (:username, 'ROLE_USER')", paramMap);
 			
 			return new ServiceResponse("Success!", true);
 		} catch (Exception ex) {

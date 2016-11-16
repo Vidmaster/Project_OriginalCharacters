@@ -9,8 +9,16 @@ create table users (
   description varchar (4000),
   facebookId int,
   password varchar(60),
+  enabled boolean,
   unique (username),
   primary key (id)
+);
+
+create table authorities (
+	username varchar(60) not null, 
+	authority varchar(50) not null, 
+	foreign key (username) references users (username), 
+	unique index authorities_idx_1 (username, authority)
 );
 
 create table story (
