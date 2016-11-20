@@ -37,55 +37,54 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+import edu.unomaha.oc.database.JdbcUserDao;
+
 @Configuration
 @EnableWebSecurity
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and()
-			.authorizeRequests().antMatchers("/index.html", "/", "/webjars/**", "/js/**", "/font-awesome/**", 
-						"/css/**", "/views/**", "/img/**", "/#!/**", "/login",
-						"/api/**").permitAll().anyRequest().authenticated()
-//			.and()
-//				.formLogin().loginPage("/#!/login").successForwardUrl("/home")
-			.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-	}
 	
+	private static String[] PERMITTED_URLS = {"/", "/index.html", "/webjars/**", "/js/**", "/font-awesome/**", 
+			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/dashboard"};
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private DataSource dataSource;
 	
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-			.jdbcAuthentication()
-			.dataSource(dataSource)
-			.passwordEncoder(passwordEncoder)
-			.usersByUsernameQuery("select username, password, enabled from users where username = ?");
-//			.authoritiesByUsernameQuery("select things from stuff where username = ?");
+	private UserDetailsService userDetailsService;
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.httpBasic()
+			.and()
+				.authorizeRequests().antMatchers(PERMITTED_URLS).permitAll().anyRequest().authenticated()
+			.and()
+				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//		auth
+//			.jdbcAuthentication()
+//			.dataSource(dataSource)
+//			.passwordEncoder(passwordEncoder);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+			//.usersByUsernameQuery("select username, password, enabled from users where username = ?");
+	}
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
-//	@Autowired
-//	UserDetailsService userDetailsService;
-//	
-//	@Bean
-//	public UserDetailsService getUserDetailsService() {
-//		JdbcUserDetailsManager svc = new JdbcUserDetailsManager();
-//		svc.setDataSource(dataSource);
-//		svc.setUserExistsSql("SELECT Username FROM Users WHERE Username=? OR Email=?");
-//		
-//		return svc;
-//	}
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new JdbcUserDao();
+	}
 	
 	
 //  @Autowired

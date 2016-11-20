@@ -17,8 +17,9 @@ public class UserRowMapper implements RowMapper<User> {
 		String description = rs.getString("description");
 		int facebookId = rs.getInt("facebookId");
 		String password = rs.getString("password");
+		Boolean enabled = rs.getBoolean("enabled");
 		  
-		return new User(id, username, email, description, facebookId, password);
+		return new User(id, username, email, description, facebookId, password, enabled);
 	}
 
 }

@@ -16,11 +16,15 @@
                             <a href="#newStories">New Stories</a>
                         </li>
                         <li class="footer-menu-divider">&sdot;</li>
-                        <li>
+                        <li ng-show="!authenticated">
                             <a href="#!/register">Register</a>
                         </li>
-                        <li>
+                        <li class="footer-menu-divider" ng-show="!authenticated">&sdot;</li>
+                        <li ng-show="!authenticated">
                             <a href="#!/login">Login</a>
+                        </li>
+                        <li ng-show="authenticated">
+                        	<a href="" ng-click="controller.logout()">Logout</a>
                         </li>
                     </ul>
                     <p class="copyright text-muted small">CSCI4830 - Original Characters 2016</p>

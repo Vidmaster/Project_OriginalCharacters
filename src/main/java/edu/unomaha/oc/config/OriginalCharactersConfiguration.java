@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import edu.unomaha.oc.database.JdbcStoryDao;
+import edu.unomaha.oc.database.JdbcUserDao;
 import edu.unomaha.oc.database.StoryDao;
+import edu.unomaha.oc.database.UserDao;
 
 @Configuration
 public class OriginalCharactersConfiguration { 
@@ -35,6 +37,11 @@ public class OriginalCharactersConfiguration {
 	@Bean
 	public StoryDao storyDao() {
 		return new JdbcStoryDao();
+	}
+	
+	@Bean
+	public UserDao userDao() {
+		return new JdbcUserDao();
 	}
 	
 }

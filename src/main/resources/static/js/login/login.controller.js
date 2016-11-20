@@ -14,6 +14,7 @@ angular.module('login')
 		    	console.log(response);
 		      if (response.data.name) {
 		        $rootScope.authenticated = true;
+		        $rootScope.username = response.data.name;
 		      } else {
 		        $rootScope.authenticated = false;
 		      }
