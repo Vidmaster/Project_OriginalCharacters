@@ -6,5 +6,6 @@ angular.module('originalCharactersApp',
 		 'userProfile',
 		 'register',
 		 'login',
+		 'auth',
 		 'ngRoute'
 		 ]);
