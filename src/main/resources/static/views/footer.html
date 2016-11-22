@@ -24,7 +24,11 @@
                             <a href="#!/login">Login</a>
                         </li>
                         <li ng-show="authenticated">
-                        	<a href="" ng-click="controller.logout()">Logout</a>
+                        	<a href="" ng-click="logout()">Logout</a>
+                        </li>
+                        <li class="footer-menu-divider" ng-show="authenticated">&sdot;</li>
+                        <li ng-show="authenticated" id="footerLoggedInUser">
+                        	Logged in as {{user.name}}
                         </li>
                     </ul>
                     <p class="copyright text-muted small">CSCI4830 - Original Characters 2016</p>

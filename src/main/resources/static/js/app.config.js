@@ -6,7 +6,7 @@ angular.module('originalCharactersApp')
 		$locationProvider.hashPrefix('!');
 		
 		$routeProvider.when('/', {
-			template: '<oc-index></oc-index>'
+			template: '<oc-index></oc-index>',
 		}).
 		when('/home', {
 			template: '<oc-home></oc-home>'

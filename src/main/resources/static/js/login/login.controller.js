@@ -1,5 +1,5 @@
 angular.module('login')
-	.controller('login', function($rootScope, $http, $location, auth) {
+	.controller('login', function($rootScope, $http, $location, auth, $window) {
 		  var self = this;
 
 		  auth.authenticate();
@@ -9,7 +9,8 @@ angular.module('login')
 			  console.log('called login');
 			  auth.authenticate(self.credentials, function() {
 			        if (auth.authenticated) {
-				          $location.path("/");
+				          //$location.path("/");
+			        	  $window.location.href = "/";
 				          self.authenticated = true;
 				          self.error = false;
 				        } else {
