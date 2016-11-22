@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.oc.database.CharacterRowMapper;
-import edu.unomaha.oc.domain.Character;
+import edu.unomaha.oc.domain.OriginalCharacter;
 
 @RestController
 public class CharacterController {
@@ -29,28 +29,28 @@ public class CharacterController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value="/api/characters", method=RequestMethod.GET)
-	public ResponseEntity<List<Character>> searchCharactersByName(@RequestParam(value="name") String name) {
+	public ResponseEntity<List<OriginalCharacter>> searchCharactersByName(@RequestParam(value="name") String name) {
 		logger.debug("searchStoriesByTitle(): name=" + name);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("name", '%' + name + '%');
 		
-		List<Character> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM character WHERE name LIKE ':name'", paramMap, new CharacterRowMapper()); 
+		List<OriginalCharacter> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM character WHERE name LIKE ':name'", paramMap, new CharacterRowMapper()); 
 		
-		return new ResponseEntity<List<Character>>(characters, HttpStatus.OK);
+		return new ResponseEntity<List<OriginalCharacter>>(characters, HttpStatus.OK);
 	}
 	
 	
 	@RequestMapping(value="/api/characters/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Character> getCharacter(@PathVariable("id") int id) {
+	public ResponseEntity<OriginalCharacter> getCharacter(@PathVariable("id") int id) {
 		logger.debug("getCharacter(): id=" + id);
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		Map<String,Object> paramMap = new HashMap<>();
 		paramMap.put("id", id);
 		
-		Character character = template.queryForObject("SELECT id, name, appearance, personality, notes FROM character WHERE id=:id", paramMap, new CharacterRowMapper());
-		return new ResponseEntity<Character>(character, HttpStatus.OK);
+		OriginalCharacter character = template.queryForObject("SELECT id, name, appearance, personality, notes FROM character WHERE id=:id", paramMap, new CharacterRowMapper());
+		return new ResponseEntity<OriginalCharacter>(character, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/api/characters", method=RequestMethod.POST)

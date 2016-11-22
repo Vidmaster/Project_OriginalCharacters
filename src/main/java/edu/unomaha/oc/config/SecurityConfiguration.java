@@ -68,12 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//		auth
-//			.jdbcAuthentication()
-//			.dataSource(dataSource)
-//			.passwordEncoder(passwordEncoder);
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-			//.usersByUsernameQuery("select username, password, enabled from users where username = ?");
 	}
 	
 	@Bean

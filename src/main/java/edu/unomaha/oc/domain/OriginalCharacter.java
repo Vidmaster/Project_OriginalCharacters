@@ -1,7 +1,7 @@
 package edu.unomaha.oc.domain;
 
 // TODO: Rename to OriginalCharacter so this doesn't clash with java.lang.Character
-public class Character {
+public class OriginalCharacter {
 	private int id;
 	private int owner;
 	private String name;
@@ -62,7 +62,7 @@ public class Character {
 		return "Character [id=" + id + ", owner=" + owner + ", name=" + name + "]";
 	}
 	
-	public Character(int id, int owner, String name, String appearance, String personality, String notes) {
+	public OriginalCharacter(int id, int owner, String name, String appearance, String personality, String notes) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -71,7 +71,7 @@ public class Character {
 		this.notes = notes;
 	}
 
-	public Character() {
+	public OriginalCharacter() {
 
 	}
 
