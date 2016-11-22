@@ -30,14 +30,14 @@ angular.module('originalCharactersApp')
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	}
 ])
-	.controller('app', function($scope, auth) {
+	.controller('app', function($scope, $window, auth) {
 		$scope.user = auth.user;
 		
 		$scope.logout = function() {
-			console.log('logout???');
 			auth.clear();
 			$scope.user = null;
 			$scope.authenticated = auth.authenticated;
+			$window.location.href="/";
 		};
 		
 		auth.authenticate(null,function() {
@@ -48,7 +48,7 @@ angular.module('originalCharactersApp')
 		});
 	})
 	.run(function(auth) {
-	    auth.init('/', '/login', '/logout');
+	    auth.init('/home', '/login', '/logout');
 	});
 
 // /home for logged in user, /character/:characterId, /searchResults, /createStory, /write?
