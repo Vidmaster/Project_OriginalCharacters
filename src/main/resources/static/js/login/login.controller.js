@@ -29,6 +29,7 @@ angular.module('login')
 		  authenticate();
 		  self.credentials = {};
 		  self.login = function() {
+			  self.dataLoading = true;
 			  console.log('called login');
 		      authenticate(self.credentials, function() {
 		        if ($rootScope.authenticated) {
@@ -38,6 +39,7 @@ angular.module('login')
 		          $location.path("/login");
 		          self.error = true;
 		        }
+		        self.dataLoading = false;
 		      });
 		  };
 		  
