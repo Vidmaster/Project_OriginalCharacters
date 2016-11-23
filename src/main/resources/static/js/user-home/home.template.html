@@ -1,24 +1,24 @@
 	<a name="notifications"></a>
     <div class="content-section-b">
         <div class="container">
-
+			<div class="row"><h2>Welcome {{user.username}}!</h2></div>
+			<ul class="list-inline">
+				<li><a href="">New Story</a></li>
+				<li><a href="">New Character</a></li>
+				<li><a href="">Edit Profile</a></li>
+			</ul>
+			<div class="row">
+				<ng-include src="'/views/search.html'"></ng-include>
+			</div>
             <div class="row">
-				<h1>User notifications go here</h1>
-				
+				<oc-notifications></oc-notifications>
             </div>
-            <oc-notifications></oc-notifications>
-            <h2>User: {{user.name}}</h2>
-
         </div>
         <!-- /.container -->
 
-    </div>
-    <!-- /.content-section-b -->
-    <div class="content-section-a">
     	<div class="container">
     		<div class="row">
-    			<h1>Stories and stuff go here</h1>
+    			<my-stories></my-stories>
     		</div>
-    		<my-stories></my-stories>
     	</div>
     </div>

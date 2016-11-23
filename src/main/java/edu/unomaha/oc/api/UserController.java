@@ -30,12 +30,15 @@ import edu.unomaha.oc.database.UserDao;
 import edu.unomaha.oc.database.UserRowMapper;
 import edu.unomaha.oc.domain.ServiceResponse;
 import edu.unomaha.oc.domain.User;
-import edu.unomaha.oc.utilities.AuthorizationUtilities;
+import edu.unomaha.oc.utilities.AuthUtilities;
 
 @RestController
 public class UserController {
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private AuthUtilities auth;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -70,26 +73,11 @@ public class UserController {
 	
 	@RequestMapping(value="/api/users/{id}", method=RequestMethod.PUT)
 	public void updateUser(@PathVariable(value="id") int id, @RequestParam(value="updates") String updates) {
-		if (isAuthorized(id)) userDao.updateUser(id);
+		if (auth.isAuthorized(id)) userDao.updateUser(id);
 	}
 	
 	@RequestMapping(value="/api/user/{id}", method=RequestMethod.DELETE)
 	public void deleteUser(@PathVariable(value="id") int id) {
-		if (isAuthorized(id)) userDao.deleteUser(id);
-	}
-	
-	private boolean isAuthorized(long id) {
-		Principal principal = (Principal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetails) {
-				long userId = ((User)principal).getId();
-				if (userId == id) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-			  return false;
-			}
-		
+		if (auth.isAuthorized(id)) userDao.deleteUser(id);
 	}
 }

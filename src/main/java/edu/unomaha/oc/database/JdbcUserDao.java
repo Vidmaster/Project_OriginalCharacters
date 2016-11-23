@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import edu.unomaha.oc.domain.User;
-import edu.unomaha.oc.utilities.AuthorizationUtilities;
+import edu.unomaha.oc.utilities.AuthUtilities;
 
 public class JdbcUserDao implements UserDao, UserDetailsService {
 	private static final String ALL_COLUMNS = "id, username, email, description, facebookId, password, enabled";
@@ -71,7 +71,7 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 	public Number createUser(String username, String password, String email, String description) {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		
-		String hashedPass = AuthorizationUtilities.encode(password);
+		String hashedPass = AuthUtilities.encode(password);
 		paramMap.addValue("username", username);
 		paramMap.addValue("password", hashedPass);
 		paramMap.addValue("email", email);

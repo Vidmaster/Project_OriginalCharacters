@@ -38,6 +38,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import edu.unomaha.oc.database.JdbcUserDao;
+import edu.unomaha.oc.utilities.AuthUtilities;
 
 @Configuration
 @EnableWebSecurity
@@ -81,6 +82,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new JdbcUserDao();
 	}
 	
+	@Bean
+	public AuthUtilities auth() {
+		return new AuthUtilities();
+	}
 	
 //  @Autowired
 //  OAuth2ClientContext oauth2ClientContext;

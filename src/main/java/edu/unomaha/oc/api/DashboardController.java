@@ -2,7 +2,9 @@ package edu.unomaha.oc.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -13,18 +15,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.unomaha.oc.database.CharacterRowMapper;
 import edu.unomaha.oc.database.StoryRowMapper;
+import edu.unomaha.oc.domain.OriginalCharacter;
 import edu.unomaha.oc.domain.Story;
+import edu.unomaha.oc.utilities.AuthUtilities;
 
 @RestController
 public class DashboardController {
 	
 	@Autowired
 	private DataSource ds;
+	
+	@Autowired
+	private AuthUtilities auth;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -52,4 +61,32 @@ public class DashboardController {
 			return new ResponseEntity<List<Story>>(new ArrayList<Story>(), HttpStatus.OK);
 		}
 	}
+	
+	@RequestMapping("/api/dashboard/{id}")
+	public ResponseEntity<Map<String,Object>> getUserDashboard(@PathVariable("id") int id) {
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		Map<String,Object> results = new HashMap<String,Object>();
+		HttpStatus status = HttpStatus.OK;
+		
+		String storiesSql = "SELECT " + STORY_FIELDS + " FROM story WHERE owner = :userId ORDER BY id DESC";
+		String charactersSql = "SELECT id, name FROM characters WHERE owner = :userId ORDER BY name";
+		
+		paramMap.addValue("userId", id);
+		
+		if (auth.isAuthorized(id)) {
+			List<Story> stories = template.query(storiesSql, paramMap, new StoryRowMapper());
+			logger.debug("stories = " + Arrays.toString(stories.toArray()));
+			List<OriginalCharacter> characters = template.query(charactersSql, paramMap, new CharacterRowMapper());
+			logger.debug("characters = " + Arrays.toString(characters.toArray()));
+			
+			results.put("stories", stories);
+			results.put("characters", characters);
+		} else {
+			results.put("message", "User is not authorized to access this resource");
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String,Object>>(results, status);
+	}
+	
 }

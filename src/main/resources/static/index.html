@@ -33,8 +33,8 @@
 	<script src="js/dashboard/dashboard.component.js"></script>
 	<script src="js/user-home/notifications.js"></script>
 	<script src="js/user-home/my-stories.js"></script>
-	<script src="js/story-detail/story-detail.module.js"></script>
-	<script src="js/story-detail/story-detail.component.js"></script>
+	<script src="js/story/story-detail.module.js"></script>
+	<script src="js/story/story-detail.component.js"></script>
 	<script src="js/user/user-profile.module.js"></script>
 	<script src="js/user/user-profile.component.js"></script>
 	<script src="js/register/register.module.js"></script>
@@ -53,8 +53,6 @@
 	<!-- Navigation bar -->
 	<ng-include src="'/views/navbar.html'"></ng-include>
 	
-<!-- 	<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="$scope.message"></div> -->
-
 	<!-- This is where the magic happens. Thanks AngularJS! -->
 	<div ng-view></div>
 

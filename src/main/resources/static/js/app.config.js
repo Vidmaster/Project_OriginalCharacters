@@ -25,6 +25,9 @@ angular.module('originalCharactersApp')
 		when('/user/:userId', {
 			template: '<user-profile></user-profile>'
 		}).
+		when('/search', {
+			template: '<div class="container"><h1>Not yet implemented</h1></div>'
+		}).
 		otherwise('/');
 		
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';

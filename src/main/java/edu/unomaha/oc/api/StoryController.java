@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.oc.database.StoryDao;
 import edu.unomaha.oc.domain.Story;
-import edu.unomaha.oc.utilities.AuthorizationUtilities;
+import edu.unomaha.oc.utilities.AuthUtilities;
 
 @RestController
 public class StoryController {
@@ -38,7 +38,7 @@ public class StoryController {
 	public ResponseEntity<List<Story>> searchStoriesByTitle(HttpServletRequest request, @RequestParam(value="title") String title) {
 		logger.debug("searchStoriesByTitle(): title=" + title);
 		
-		int owner = AuthorizationUtilities.getActiveUser(request);
+		int owner = AuthUtilities.getActiveUser(request);
 		
 		List<Story> stories = storyDao.search(title, owner);
 		
