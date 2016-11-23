@@ -11,7 +11,10 @@ create table users (
   password varchar(60),
   enabled boolean,
   unique (username),
-  primary key (id)
+  unique (email),
+  primary key (id),
+  index USERNAME_INDEX (username),
+  index EMAIL_INDEX (email)
 );
 
 create table authorities (
@@ -29,7 +32,9 @@ create table story (
 	genre varchar(250),
 	private boolean default false,
 	visible boolean default true,
-	primary key (id)
+	primary key (id),
+	index TITLE_INDEX (title),
+	index OWNER_INDEX (owner)
 );
 
 create table characters (
@@ -39,17 +44,23 @@ create table characters (
 	appearance text,
 	personality text,
 	notes text,
-	primary key (id)
+	primary key (id),
+	index NAME_INDEX (name),
+	index OWNER_INDEX (owner)
 );
 
 create table contribution (
 	id int not null auto_increment,
 	owner int not null references users (id),
 	story int not null references story (id),
-	order int not null, 
+	ordering int not null, 
 	title varchar(1000),
 	body text,
-	status varchar(20)
+	status varchar(20),
+	primary key (id),
+	index TITLE_INDEX (title),
+	index OWNER_INDEX (owner),
+	index STORY_INDEX (story)
 );
 
 create table invitation (
@@ -58,31 +69,37 @@ create table invitation (
 	recipient int not null references users (id),
 	story int not null references story (id),
 	status varchar(20),
-	type varchar(20)
+	type varchar(20),
+	primary key (id),
+	index SENDER_INDEX (sender),
+	index RECIPIENT_INDEX (recipient)
 );
 
 create table comment (
 	id int not null auto_increment,
-	story int not null references story (id);
-	commenter int not null references users (id)
+	story int not null references story (id),
+	commenter int not null references users (id),
 	timestamp datetime,
-	comment text
+	comment text,
+	primary key (id),
+	index STORY_INDEX (story),
+	index COMMENTER_INDEX (commenter)
 );
 
 create table CharacterToContribution (
-	id int not null auto_increment,
-	character int not null references characters (id),
+	original_character int not null references characters (id),
 	contribution int not null references contribution (id),
+	primary key (original_character,contribution)
 );
 
 create table CharacterToStory (
-	id int not null auto_increment,
-	character int not null references characters (id),
-	story int not null references story (id)
+	original_character int not null references characters (id),
+	story int not null references story (id),
+	primary key (original_character,story)
 );
 
 create table UserToStory (
-	id int not null auto_increment, 
 	contributor int not null references users (id),
-	story int not null references story (id)
+	story int not null references story (id),
+	primary key (contributor,story)
 );
