@@ -46,7 +46,7 @@ import edu.unomaha.oc.utilities.AuthUtilities;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	private static String[] PERMITTED_URLS = {"/", "/index.html", "/webjars/**", "/js/**", "/font-awesome/**", 
-			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/dashboard"};
+			"/css/**", "/views/**", "/img/**", "/#!/**", "/login","/api/dashboard", "/api/stories"};
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;

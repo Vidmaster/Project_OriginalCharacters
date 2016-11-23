@@ -25,8 +25,8 @@ angular.module('originalCharactersApp')
 		when('/user/:userId', {
 			template: '<user-profile></user-profile>'
 		}).
-		when('/search', {
-			template: '<div class="container"><h1>Not yet implemented</h1></div>'
+		when('/search-results', {
+			template: '<search-results></search-results>'
 		}).
 		otherwise('/');
 		

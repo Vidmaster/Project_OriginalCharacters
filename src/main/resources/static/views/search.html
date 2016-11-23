@@ -1,3 +1,8 @@
 <span ng-controller="SearchController">
-	<form id="search" ng-submit="search()" class="form-search form-horizontal"><div class="input-append span12"><input type="text" style="color:black" id="searchText" ng-model="searchText" class="search-query" placeholder="Search for a story or character" required size=50><button type="submit" class="btn btn-primary">Search</button></div></form>
+	<form id="search" ng-submit="search()" class="form-search form-horizontal">
+		<div class="input-append span12">
+			<input type="text" style="color:black" id="searchText" ng-model="searchText" class="search-query" placeholder="Search for a story or character" required size=50>
+			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+		</div>
+	</form>
 </span>

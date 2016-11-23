@@ -1,0 +1,32 @@
+<a name="results"></a>
+<div class="container" ng-controller="SearchController">
+    <div class="content-section-b">
+		<div class="container">
+			<div class="row"><h1><!-- This is janky as hell but I can't figure out how to make the search bar move down from the top :( --></h1></div>
+			<div class="row"><div class="col-lg-10 col-lg-offset-1"><ng-include src="'/views/search.html'"></ng-include></div></div>
+		</div>
+        <div class="container">
+
+            <div class="row">
+				<h2 ng-hide="results.length">No results to display</h2>
+				<h2>Results for {{searchTerm}}</h2>
+                <div class="col-lg-10 col-lg-offset-1" ng-repeat="result in results">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading"> <a href="#!/story/{{result.id}}">{{result.title}}</a></h2>
+                    <p class="lead">
+
+                    {{result.description}}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-b -->
+</div>
