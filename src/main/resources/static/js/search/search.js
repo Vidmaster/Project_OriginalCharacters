@@ -8,15 +8,6 @@ angular.module('search', [])
 			console.log('called search');
 			self.loading = true;
 			searchService.search($scope.searchText);
-//			var path = '/api/stories?title=' + $scope.searchText;
-//			console.log('searching for stories at ' + path);
-//			$http.get(path).then(function(response) {
-//				console.log('search response');
-//				console.log(response);
-//				$scope.results = response.data;
-//				self.loading = false;
-//				$location.path("/search-results");
-//			});
 		};
 		$scope.search = search;
 		

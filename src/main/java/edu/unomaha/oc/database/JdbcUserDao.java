@@ -82,7 +82,7 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			
-			template.update("INSERT INTO users (username, password, email, description) VALUES (:username, :password, :email, :description)", paramMap, keyHolder);
+			template.update("INSERT INTO users (username, password, email, description, enabled) VALUES (:username, :password, :email, :description, true)", paramMap, keyHolder);
 			template.update("INSERT INTO authorities (username, authority) VALUES (:username, :role)", paramMap);
 			
 			logger.debug("Created user with id=" + keyHolder.getKey());

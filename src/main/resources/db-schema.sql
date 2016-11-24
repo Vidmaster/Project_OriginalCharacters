@@ -9,7 +9,7 @@ create table users (
   description varchar (4000),
   facebookId int,
   password varchar(60),
-  enabled boolean,
+  enabled boolean default true,
   unique (username),
   unique (email),
   primary key (id),
@@ -32,6 +32,7 @@ create table story (
 	genre varchar(250),
 	private boolean default false,
 	visible boolean default true,
+	inviteonly boolean default true,
 	primary key (id),
 	index TITLE_INDEX (title),
 	index OWNER_INDEX (owner)
