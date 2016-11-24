@@ -30,9 +30,8 @@ create table story (
 	title varchar(1000) not null,
 	description text,
 	genre varchar(250),
-	private boolean default false,
 	visible boolean default true,
-	inviteonly boolean default true,
+	inviteonly boolean default false,
 	primary key (id),
 	index TITLE_INDEX (title),
 	index OWNER_INDEX (owner)

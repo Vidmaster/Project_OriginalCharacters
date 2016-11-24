@@ -3,9 +3,9 @@
         <div class="container">
 			<div class="row"><h2>Welcome {{user.username}}!</h2></div>
 			<ul class="list-inline">
-				<li><a href="">New Story</a></li>
-				<li><a href="">New Character</a></li>
-				<li><a href="">Edit Profile</a></li>
+				<li><a href="#!/story">New Story</a></li>
+				<li><a href="#!/character">New Character</a></li>
+				<li><a href="#!/user/{{user.id}}/edit">Edit Profile</a></li>
 			</ul>
 			<div class="row">
 				<ng-include src="'/views/search.html'"></ng-include>

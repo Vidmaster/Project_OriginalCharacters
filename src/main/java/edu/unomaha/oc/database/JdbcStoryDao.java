@@ -53,11 +53,16 @@ public class JdbcStoryDao implements StoryDao {
 	public Number create(Story story) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		
+
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
-		paramMap.addValue("value", "stuff");
+		paramMap.addValue("owner", story.getOwner());
+		paramMap.addValue("title", story.getTitle());
+		paramMap.addValue("description", story.getDescription());
+		paramMap.addValue("genre", story.getGenre());
+		paramMap.addValue("visible", story.isVisible());
+		paramMap.addValue("inviteOnly", story.isInviteOnly());
 		
-		template.update("insert into Story values (....)", paramMap, keyHolder, new String[]{"id"});
+		template.update("insert into Story (owner, title, description, genre, visible, inviteonly) values (:owner, :title, :description, :genre, :visible, :inviteOnly)", paramMap, keyHolder, new String[]{"id"});
 		
 		return keyHolder.getKey();
 	}

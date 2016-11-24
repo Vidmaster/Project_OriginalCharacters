@@ -22,8 +22,33 @@ angular.module('originalCharactersApp')
 		when('/story/:storyId', {
 			template: '<story-detail></story-detail>'
 		}).
+		when('/story/:storyId/edit', {
+			template: '<story-edit></story-edit>',
+			controller: 'StoryController',
+			controllerAs: 'sc'
+		}).
+		when('/story', {
+			template: '<story-new></story-new>',
+			controller: 'StoryController',
+			controllerAs: 'sc'
+		}).
+		when('/character', {
+			template: '<character-new></character-new>',
+			controller: 'CharacterController',
+			controllerAs: 'cc'
+		}).
+		when('/character/:characterId', {
+			template: '<character-detail></character-detail>'
+		}).
+		when('/character/:characterId/edit', {
+			template: '<character-edit></character-edit>'
+		}).
 		when('/user/:userId', {
 			template: '<user-profile></user-profile>'
+		}).
+		when('/user/:userId/edit', {
+			template: '<user-edit></user-edit>',
+			controller: 'UserController'
 		}).
 		when('/search-results', {
 			template: '<search-results></search-results>'

@@ -33,7 +33,7 @@ angular.module('register')
 			      $scope.formData = {};
 			      $scope.message=null;
 			      $scope.success=null;
-			      $location.path('/index');
+			      $location.path('/login');
 			    }
 			});
 			

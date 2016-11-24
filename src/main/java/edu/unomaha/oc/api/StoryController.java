@@ -59,7 +59,7 @@ public class StoryController {
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/api/stories", method=RequestMethod.POST, consumes="application/json")
+	@RequestMapping(value="/api/stories", method=RequestMethod.POST)
 	public ResponseEntity<Story> createStory(@RequestParam(value="owner") int owner, @RequestParam(value="title") String title, 
 			@RequestParam(value="description", defaultValue="") String description, @RequestParam(value="genre", defaultValue="") String genre,
 			@RequestParam(value="visible", defaultValue="true") boolean visible, @RequestParam(value="inviteOnly", defaultValue="false") boolean inviteOnly) {
