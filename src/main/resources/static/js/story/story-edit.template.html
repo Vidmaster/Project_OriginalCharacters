@@ -1,12 +1,12 @@
 <div class="content-section-b">
 	<div class="container">
-        <div class="row" ng-controller="StoryController">
+        <div class="row" ng-controller="EditStoryController">
             <div class="col-md-8">
-                <h3>Start a new story</h3>
+                <h3>Edit story</h3>
                 <div id="messages" class="alert alert-danger" ng-show="message">
 				    {{message}}
 				</div>
-                <form name="createStory" id="createStory" novalidate ng-submit="newStory(createStory.$valid)">
+                <form name="editStory" id="editStory" novalidate ng-submit="updateStory(editStory.$valid)">
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Title:</label>
@@ -43,7 +43,6 @@
 
                     <div id="success"></div>
                     <!-- For success/fail messages -->
-                    <img ng-if="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                     <button type="submit" class="btn btn-primary" ng-disabled="createStory.$invalid">Save Story</button><a href="#!/home" class="btn btn-link">Cancel</a>
                 </form>
             </div>

@@ -32,6 +32,9 @@ public class StoryController {
 	@Autowired
 	private StoryDao storyDao;
 	
+	@Autowired
+	private AuthUtilities auth;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value="/api/stories", method=RequestMethod.GET)
@@ -76,21 +79,32 @@ public class StoryController {
 		return new ResponseEntity<Story>(story, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/api/stores/{id}", method=RequestMethod.PUT, consumes="application/json")
-	public void updateStory(@PathVariable("id") int id) {
-		// TODO: Check authenticated user is authorized
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("id", id);
+	@RequestMapping(value="/api/stories/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Story> updateStory(@PathVariable("id") int id, @RequestParam(value="title") String title, 
+			@RequestParam(value="description", defaultValue="") String description, @RequestParam(value="genre", defaultValue="") String genre,
+			@RequestParam(value="visible", defaultValue="true") boolean visible, @RequestParam(value="inviteOnly", defaultValue="false") boolean inviteOnly) {
 		
-		template.update("UPDATE Story SET value=stuff WHERE id=:id", paramMap);
+		Story story = storyDao.read(id);
+		story.setTitle(title);
+		story.setDescription(description);
+		story.setGenre(genre);
+		story.setVisible(visible);
+		story.setInviteOnly(inviteOnly);
+		
+		if (auth.isAuthorized(story.getOwner())) {
+			storyDao.update(id, story);
+			
+			return new ResponseEntity<Story>(story, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Story>(story, HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
-	@RequestMapping(value="/api/stores/{id}", method=RequestMethod.DELETE, consumes="application/json")
+	@RequestMapping(value="/api/stories/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteStory(HttpServletRequest request, @PathVariable("id") int id) throws AuthException {
 		// TODO: Check authenticated user owns the story
 		Story story = storyDao.read(id);	
-		if (story.getOwner() == Integer.parseInt(request.getHeader("userId"))) {
+		if (auth.isAuthorized(story.getOwner())) {
 			storyDao.delete(id);
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
 		} else {

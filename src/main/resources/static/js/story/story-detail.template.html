@@ -11,6 +11,7 @@
 			      <li>Genre: {{$ctrl.story.genre}}</li>
 			      <li class="footer-menu-divider">&sdot;</li>
 			      <li>Contributors: {{$ctrl.story.contributors.length}}</li>
+			      <li ng-show="$ctrl.currentUser == $ctrl.story.owner.id"><a href="#!/story/{{$ctrl.story.id}}/edit" class="btn btn-primary">Edit Story</a></li>
 			    </ul>
 			  </div>
 			</div>

@@ -2,10 +2,15 @@ angular.
   module('storyDetail').
   component('storyDetail', {
     templateUrl: '/js/story/story-detail.template.html',
-    controller: ['$http', '$routeParams',
-      function StoryDetailController($http, $routeParams) {
+    controller: ['$http', '$routeParams', 'auth', 
+      function StoryDetailController($http, $routeParams, auth) {
     	var self = this;
-        this.storyId = $routeParams.storyId;
+        self.storyId = $routeParams.storyId;
+        if (auth && auth.user && auth.user.principal) {
+            self.currentUser = auth.user.principal.id;
+        } else {
+        	self.currentUser = -1;
+        }
         
         $http.get('/api/stories/' + $routeParams.storyId).then(function (response) {
         	self.story = response.data;

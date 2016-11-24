@@ -1,6 +1,8 @@
 package edu.unomaha.oc.database;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -46,7 +48,18 @@ public class JdbcStoryDao implements StoryDao {
 	@Override
 	public Number update(int id, Story story) {
 		// TODO Auto-generated method stub
-		return 0;
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("id", id);
+		paramMap.addValue("title", story.getTitle());
+		paramMap.addValue("description", story.getDescription());
+		paramMap.addValue("genre", story.getGenre());
+		paramMap.addValue("visible", story.isVisible());
+		paramMap.addValue("inviteOnly", story.isInviteOnly());
+		
+		int rowsAffected = template.update("UPDATE Story SET title=:title, description=:description, genre=:genre, visible=:visible, inviteonly=:inviteOnly WHERE id=:id", paramMap);
+		
+		return rowsAffected;
 	}
 
 	@Override
