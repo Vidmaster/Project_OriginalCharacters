@@ -1,16 +1,9 @@
 package edu.unomaha.oc.domain;
 
 public class CharacterToContribution {
-	private int id;
 	private int character;
 	private int contribution;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getCharacter() {
 		return character;
 	}
@@ -24,8 +17,7 @@ public class CharacterToContribution {
 		this.contribution = contribution;
 	}
 
-	public CharacterToContribution(int id, int character, int contribution) {
-		this.id = id;
+	public CharacterToContribution(int character, int contribution) {
 		this.character = character;
 		this.contribution = contribution;
 	}

@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import edu.unomaha.oc.domain.User;
-import edu.unomaha.oc.utilities.AuthUtilities;
 
 public class JdbcUserDao implements UserDao, UserDetailsService {
 	private static final String ALL_COLUMNS = "id, username, email, description, facebookId, password, enabled";
@@ -26,7 +25,6 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 	private static final String DEFAULT_ROLE = "ROLE_USER";
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	
 	@Autowired
 	private DataSource dataSource;
@@ -68,21 +66,21 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 		return user;
 	}
 	
-	public Number createUser(String username, String password, String email, String description) {
+	public Number createUser(User user) {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		
-		String hashedPass = AuthUtilities.encode(password);
-		paramMap.addValue("username", username);
-		paramMap.addValue("password", hashedPass);
-		paramMap.addValue("email", email);
-		paramMap.addValue("description", description);
+		paramMap.addValue("username", user.getUsername());
+		paramMap.addValue("password", user.getPassword());
+		paramMap.addValue("email", user.getEmail());
+		paramMap.addValue("description", user.getDescription());
+		paramMap.addValue("enabled", true);
 		paramMap.addValue("role", DEFAULT_ROLE);
 		
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			
-			template.update("INSERT INTO users (username, password, email, description, enabled) VALUES (:username, :password, :email, :description, true)", paramMap, keyHolder);
+			template.update("INSERT INTO users (username, password, email, description, enabled) VALUES (:username, :password, :email, :description, :enabled)", paramMap, keyHolder);
 			template.update("INSERT INTO authorities (username, authority) VALUES (:username, :role)", paramMap);
 			
 			logger.debug("Created user with id=" + keyHolder.getKey());
@@ -97,13 +95,13 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 		}
 	}
 	
-	public void updateUser(int id) {
+	public void updateUser(int id, User user) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("id", id);
-		paramMap.put("updates", "stuff");
-		
-		template.update("UPDATE users SET (:updates) WHERE id=:id ", paramMap);
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("id", id);
+		paramMap.addValue("description", user.getDescription());
+		paramMap.addValue("email", user.getEmail());
+		template.update("UPDATE users SET description=:description, password=:password, email=:email WHERE id=:id ", paramMap);
 	}
 	
 	public void deleteUser(int id) {

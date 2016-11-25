@@ -11,11 +11,10 @@ public class UserToStoryRowMapper implements RowMapper<UserToStory> {
 
 	@Override
 	public UserToStory mapRow(ResultSet rs, int row) throws SQLException {
-		int id = rs.getInt("id");
 		int contributor = rs.getInt("contributor");
 		int story = rs.getInt("story");
 
-		return new UserToStory(id, contributor, story);
+		return new UserToStory(contributor, story);
 	}
 
 }

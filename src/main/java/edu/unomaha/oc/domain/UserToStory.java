@@ -1,16 +1,9 @@
 package edu.unomaha.oc.domain;
 
 public class UserToStory {
-	private int id;
 	private int contributor;
 	private int story;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getContributor() {
 		return contributor;
 	}
@@ -24,8 +17,7 @@ public class UserToStory {
 		this.story = story;
 	}
 	
-	public UserToStory(int id, int contributor, int story) {
-		this.id = id;
+	public UserToStory(int contributor, int story) {
 		this.contributor = contributor;
 		this.story = story;
 	}

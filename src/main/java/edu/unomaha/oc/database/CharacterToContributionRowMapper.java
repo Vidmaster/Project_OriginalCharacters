@@ -11,11 +11,10 @@ public class CharacterToContributionRowMapper implements RowMapper<CharacterToCo
 
 	@Override
 	public CharacterToContribution mapRow(ResultSet rs, int row) throws SQLException {
-		int id = rs.getInt("id");
 		int character = rs.getInt("character");
 		int contribution = rs.getInt("contribution");
 
-		return new CharacterToContribution(id, character, contribution);
+		return new CharacterToContribution(character, contribution);
 	}
 
 }

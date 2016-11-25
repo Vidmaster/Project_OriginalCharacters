@@ -6,7 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class User implements UserDetails {
-	private long id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1160183497493467630L;
+	
+	private int id;
 	private String username;
 	private String email;
 	private String description;
@@ -15,11 +20,11 @@ public class User implements UserDetails {
 	private boolean enabled;
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -68,7 +73,7 @@ public class User implements UserDetails {
 		return "User [id=" + id + ", username=" + username + "]";
 	}
 	
-	public User(long id, String username, String email, String description, 
+	public User(int id, String username, String email, String description, 
 				int facebookId, String password, boolean enabled) {
 		this.id = id;
 		this.username = username;
