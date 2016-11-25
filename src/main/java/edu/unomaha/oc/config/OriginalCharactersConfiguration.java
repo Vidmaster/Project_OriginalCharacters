@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import edu.unomaha.oc.database.CharacterDao;
+import edu.unomaha.oc.database.JdbcCharacterDao;
 import edu.unomaha.oc.database.JdbcStoryDao;
 import edu.unomaha.oc.database.JdbcUserDao;
 import edu.unomaha.oc.database.StoryDao;
@@ -42,6 +44,11 @@ public class OriginalCharactersConfiguration {
 	@Bean
 	public UserDao userDao() {
 		return new JdbcUserDao();
+	}
+	
+	@Bean
+	public CharacterDao characterDao() {
+		return new JdbcCharacterDao();
 	}
 	
 }

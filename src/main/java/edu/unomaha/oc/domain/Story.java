@@ -1,5 +1,7 @@
 package edu.unomaha.oc.domain;
 
+import java.util.List;
+
 public class Story {
 	private int id;
 	private int owner;
@@ -8,6 +10,8 @@ public class Story {
 	private String genre;
 	private boolean visible;
 	private boolean inviteOnly;
+	private List<Contribution> contributions;
+	private List<Character> characters;
 	
 	public int getId() {
 		return id;

@@ -71,6 +71,7 @@ public class DashboardController {
 		
 		String storiesSql = "SELECT " + STORY_FIELDS + " FROM story WHERE owner = :userId ORDER BY id DESC";
 		String charactersSql = "SELECT id, name FROM characters WHERE owner = :userId ORDER BY name";
+		String contributionsSql = "SELECT things FROM contribution WHERE owner = :userId";
 		
 		paramMap.addValue("userId", id);
 		

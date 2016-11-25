@@ -32,6 +32,19 @@ public class JdbcStoryDao implements StoryDao {
 		
 		return stories;
 	}
+	
+	@Override
+	public List<Story> getStoriesByUser(int userId) {
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
+		
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("userId", userId);
+		
+		List<Story> stories = template.query("SELECT " + STORY_FIELDS + " FROM story "
+				+ "WHERE visible=true AND owner=:userId", paramMap, new StoryRowMapper()); 
+		
+		return stories;
+	}
 
 	@Override
 	public Story read(int id) {

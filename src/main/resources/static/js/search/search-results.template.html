@@ -13,13 +13,30 @@
                 <div class="col-lg-10 col-lg-offset-1" ng-repeat="result in results">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading"> <a href="#!/story/{{result.id}}">{{result.title}}</a></h2>
-                    <p class="lead">
-
-                    {{result.description}}
-
-                    </p>
-
+                    
+                    <!-- Results for stories -->
+                    <div class="row" ng-if="result.title">
+	                    <h2 class="section-heading"> Story: <a href="#!/story/{{result.id}}">{{result.title}}</a></h2>
+	                    <p class="lead">
+		                    {{result.description}}
+	                    </p>
+                    </div>
+                    
+                    <!-- Results for Characters -->
+                    <div class="row" ng-if="result.name">
+	                    <h2 class="section-heading"> Character: <a href="#!/character/{{result.id}}">{{result.name}}</a></h2>
+	                    <p class="lead">
+		                    {{result.personality}}
+	                    </p>
+                    </div>
+                    
+                    <!-- Results for Users -->
+                    <div class="row" ng-if="result.username">
+	                    <h2 class="section-heading"> User: <a href="#!/user/{{result.id}}">{{result.username}}</a></h2>
+	                    <p class="lead">
+		                    {{result.description}}
+	                    </p>
+                    </div>
                 </div>
 
             </div>

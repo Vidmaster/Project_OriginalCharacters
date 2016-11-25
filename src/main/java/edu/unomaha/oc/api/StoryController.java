@@ -2,7 +2,6 @@ package edu.unomaha.oc.api;
 
 import java.util.List;
 
-import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -35,7 +34,7 @@ public class StoryController {
 	public ResponseEntity<List<Story>> searchStoriesByTitle(HttpServletRequest request, @RequestParam(value="title") String title) {
 		logger.debug("searchStoriesByTitle(): title=" + title);
 		
-		int owner = auth.getActiveUser(request);
+		int owner = auth.getActiveUser();
 		
 		List<Story> stories = storyDao.search(title, owner);
 		
@@ -95,7 +94,7 @@ public class StoryController {
 	}
 	
 	@RequestMapping(value="/api/stories/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteStory(HttpServletRequest request, @PathVariable("id") int id) throws AuthException {
+	public ResponseEntity<Object> deleteStory(@PathVariable("id") int id) {
 		// TODO: Check authenticated user owns the story
 		Story story = storyDao.read(id);	
 		if (auth.isAuthorized(story.getOwner())) {
@@ -104,6 +103,13 @@ public class StoryController {
 		} else {
 			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
 		}
+	}
+	
+	@RequestMapping(value="/api/users/{id}/stories", method=RequestMethod.GET)
+	public ResponseEntity<List<Story>> getStoriesByUser(@PathVariable("id") int id) {
+		List<Story> stories = storyDao.getStoriesByUser(id);
+		
+		return new ResponseEntity<List<Story>>(stories, HttpStatus.OK);
 	}
 	
 }

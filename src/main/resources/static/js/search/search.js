@@ -22,7 +22,7 @@ angular.module('search', [])
 		self.searchTerm = "";
 		self.search = function(value) {
 			self.searchTerm = value;
-			var path = '/api/stories?title=' + value;
+			var path = '/api/search?value=' + value;
 			console.log('searching for stories at ' + path);
 			$http.get(path).then(function(response) {
 				console.log('search response');

@@ -1,5 +1,5 @@
 <div class="content-section-b">
-	<div class="container">
+	<div class="container col-lg-10">
 		<div class="row">
 			<h1>{{$ctrl.user.username}}</h1> <span ng-show="$ctrl.currentUser == $ctrl.user.id"><a href="#!/user/{{$ctrl.user.id}}/edit" class="btn btn-primary">Edit Your Profile</a></span>
 			<hr>
@@ -25,11 +25,12 @@
 			
 			<h4>Stories:</h4>
 			<div ng-show="$ctrl.user.stories.length">
-				<!-- Add some previous/next buttons here and implement a filter -->
-				<div ng-repeat="contribution in $ctrl.user.stories">
-					<h4>{{story.title}}</h4>
-					{{story.description}}
-				</div>
+				<ul>
+					<li ng-repeat="story in $ctrl.user.stories">
+						<h4><a href="#!/story/{{story.id}}">{{story.title}}</a></h4>
+						{{story.description}}
+					</li>
+				</ul>
 			</div>
 			<div ng-show="!$ctrl.user.stories.length">
 				No stories yet!
@@ -37,11 +38,11 @@
 			<hr>
 			
 			<h4>Contributions:</h4>
-			<div ng-show="$ctrl.user.contributions.length">
-				<div ng-repeat="contribution in $ctrl.user.stories">
-					{{contribution.title}} in {{contribution.story.description}}
-				</div>
-			</div>
+			<ul ng-show="$ctrl.user.contributions.length">
+				<li ng-repeat="contribution in $ctrl.user.stories">
+					<a href="#!/contribution/{{contribution.id}}">{{contribution.title}}</a> in {{contribution.story.description}}
+				</li>
+			</ul>
 			<div ng-show="!$ctrl.user.contributions.length">
 				No contributions yet!
 			</div>

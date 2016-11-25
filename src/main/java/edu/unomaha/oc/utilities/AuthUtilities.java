@@ -1,7 +1,5 @@
 package edu.unomaha.oc.utilities;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ public class AuthUtilities {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public int getActiveUser(HttpServletRequest request) {
+	public int getActiveUser() {
 		try {
 			User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (user != null) {

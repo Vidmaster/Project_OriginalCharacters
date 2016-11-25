@@ -14,14 +14,14 @@ angular.
         }
         
         $http.get('/api/users/' + $routeParams.userId).then(function (response) {
+        	console.log(response);
         	self.user = response.data;
-        	self.user.facebookId = null;
-        	self.user.password = null;
-        	self.user.salt = null;
         	
         	if (self.user.id) {
-            	$http.get('/api/users/' + self.story.owner + '/stories').then(function (response) {
+            	$http.get('/api/users/' + self.user.id + '/stories').then(function (response) {
+            		console.log(response);
             		self.user.stories = response.data;
+            		
             	});
             }
         });

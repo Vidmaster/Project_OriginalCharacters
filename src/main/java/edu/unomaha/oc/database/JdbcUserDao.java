@@ -47,13 +47,18 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 	}
 
 	public List<User> searchByUsername(String username) {
+		logger.debug("searchByUsername(): username=" + username);
+		
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		
 		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("username", '%' + username + '%');
+		username = '%' + username + '%';
+		logger.debug(username);
+		paramMap.put("username", username);
 		
-		List<User> users = template.query("SELECT " + ALL_COLUMNS_NO_PASSWORD + " FROM users WHERE username LIKE ':username'", paramMap, new UserRowMapper()); 
+		List<User> users = template.query("SELECT " + ALL_COLUMNS_NO_PASSWORD + " FROM users WHERE username LIKE :username", paramMap, new UserRowMapper()); 
 		
+		logger.debug("Returning users: " + users);
 		return users;
 	}
 	
