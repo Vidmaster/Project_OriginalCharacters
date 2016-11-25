@@ -75,7 +75,7 @@ angular.module('storyDetail')
 	  
 	  $scope.updateStory = updateStory;
   })
-  .service('storyService', function($http, $location) {
+  .service('storyService', function($http) {
 	  var self = this;
 	  
 	  self.newStory = function(data, callback) {

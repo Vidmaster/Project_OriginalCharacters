@@ -1,7 +1,7 @@
 <div class="content-section-b">
 	<div class="container">
 		<div class="row">
-			<h1>{{$ctrl.user.username}}</h1>
+			<h1>{{$ctrl.user.username}}</h1> <span ng-show="$ctrl.currentUser == $ctrl.user.id"><a href="#!/user/{{$ctrl.user.id}}/edit" class="btn btn-primary">Edit Your Profile</a></span>
 			<hr>
 			<div>
 				<h4>About {{$ctrl.user.username}}:</h4>

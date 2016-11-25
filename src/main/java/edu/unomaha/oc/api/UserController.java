@@ -60,20 +60,35 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/api/users/{id}", method=RequestMethod.PUT)
-	public void updateUser(@PathVariable(value="id") int id, @RequestParam(value="password", defaultValue="") String password, 
-			@RequestParam(value="email", defaultValue="") String email, @RequestParam(value="description", defaultValue="") String description) {
+	public void updateUser(@PathVariable(value="id") int id, @RequestParam(value="email", defaultValue="") String email, 
+			@RequestParam(value="description", defaultValue="") String description) {
 		
 		if (auth.isAuthorized(id)) {
 			User user = userDao.readUser(id);
-			if ( !(password.isEmpty() || auth.matches(password, user.getPassword() ) ) ) {
-				user.setPassword(auth.encode(password));
-			}
 			user.setEmail(email);
 			user.setDescription(description);
 			
 			userDao.updateUser(id, user);
 		}
 	}
+	
+	@RequestMapping(value="/api/users/{id}/updatePass", method=RequestMethod.PUT)
+	public ResponseEntity<Object> updateUserPassword(@PathVariable(value="id") int id, @RequestParam(value="password", defaultValue="") String password, 
+			@RequestParam(value="newPassword", defaultValue="") String newPassword) throws Exception {
+		User user = userDao.readUserWithPass(id);
+		String oldPass = user.getPassword();
+		logger.debug("Updating password: " + password + ", " + newPassword + ", " + oldPass);
+		logger.debug("Authorized: " + auth.isAuthorized(id));
+		logger.debug("Matches: " + auth.matches(password, oldPass));
+		if (auth.isAuthorized(id) && auth.matches(password, oldPass)) {
+			String newPass = auth.encode(newPassword);
+			userDao.updateUserPassword(id, newPass);
+			return new ResponseEntity<Object>(null, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 	
 	@RequestMapping(value="/api/user/{id}", method=RequestMethod.DELETE)
 	public void deleteUser(@PathVariable(value="id") int id) {

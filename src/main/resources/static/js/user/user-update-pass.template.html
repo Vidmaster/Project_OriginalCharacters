@@ -1,0 +1,38 @@
+<div class="content-section-b">
+	<div class="container">
+		<!-- Registration Form -->
+		<div class="row">
+			<div class="col-md-8" ng-controller="UpdatePasswordController">
+				<h3>Update Your password</h3>
+				<div id="messages" ng-show="message">{{ message }}</div>
+	             <form name="updatePass" ng-submit="updatePassword(updatePass.$valid)" novalidate>
+	             	<div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>Old Password:</label>
+	                         <input type="password" class="form-control" id="password" required ng-model="formData.password">
+	                     </div>
+	                 </div>
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>New Password:</label>
+	                         <input type="password" class="form-control" id="newPassword" required ng-model="formData.newPassword" ng-minlength=6>
+	                         <p ng-show="updatePass.password.$error.minlength" class="help-block">Password is too short.</p>
+	                         <p ng-show="!updatePass.password.$pristine && !updatePass.confirmPassword.$pristine && (updatePass.password != updatePass.confirmPassword)">Passwords do not match</p>
+	                     </div>
+	                 </div>
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>Confirm New Password:</label>
+	                         <input type="password" class="form-control" id="confirmPassword" required ng-model="formData.confirmPassword" compare-to="formData.newPassword">
+	                         <span class="help-block" ng-show="errorPass">{{ errorPass }}</span>
+	                     </div>
+	                 </div>
+	                 
+	                 <button type="submit" class="btn btn-primary" ng-disabled="updatePass.$invalid">Register</button>
+	                 <a href="index.html" class="btn btn-link">Cancel</a>
+	             </form>
+	         </div>
+	     </div>
+	     <!-- /.row -->
+	</div>
+</div>

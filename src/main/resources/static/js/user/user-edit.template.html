@@ -1,0 +1,37 @@
+<div class="content-section-b">
+	<div class="container">
+		<!-- Registration Form -->
+		<div class="row">
+			<div class="col-md-8" ng-controller="EditUserController">
+				<h3>Update Your User Profile</h3>
+				<div id="messages" ng-show="message">{{ message }}</div>
+	             <form name="editUser" ng-submit="edit(editUser.$valid)" novalidate>
+	                 <div class="control-group form-group" ng-class="{ 'has-error' : formData.username.$invalid && !formData.username.$pristine}">
+	                     <div class="controls">
+	                         <label>Username:</label>
+	                         <input type="text" class="form-control" id="username" placeholder="Username" disabled ng-model="formData.username">
+	                     </div>
+	                 </div>
+
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>Email Address:</label>
+	                         <input type="email" class="form-control" placeholder="you@domain.com" id="email" required ng-model="formData.email">
+	                          <p ng-show="editUser.email.$invalid && !editUser.email.$pristine" class="help-block">Enter a valid email.</p>
+	                     </div>
+	                 </div>
+	                 <div class="control-group form-group">
+	                     <div class="controls">
+	                         <label>About you:</label>
+	                         <textarea rows="10" cols="100" class="form-control" id="description" placeholder="Tell us about yourself!" maxlength="999" style="resize:none" ng-model="formData.description"></textarea>
+	                     </div>
+	                 </div>
+
+	                 <button type="submit" class="btn btn-primary" ng-disabled="editUser.$invalid||$ctrl.loading">Update</button>
+	                 <a href="index.html" class="btn btn-link">Cancel</a>
+	             </form>
+	         </div>
+	     </div>
+	     <!-- /.row -->
+	</div>
+</div>

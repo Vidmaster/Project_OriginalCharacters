@@ -66,6 +66,16 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 		return user;
 	}
 	
+	public User readUserWithPass(int id) {
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("id", id);
+		
+		User user = template.queryForObject("SELECT " + ALL_COLUMNS + " FROM users WHERE id=:id", paramMap, new UserRowMapper());
+		return user;
+	}
+	
+	
 	public Number createUser(User user) {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		
@@ -99,9 +109,9 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
-		paramMap.addValue("description", user.getDescription());
 		paramMap.addValue("email", user.getEmail());
-		template.update("UPDATE users SET description=:description, password=:password, email=:email WHERE id=:id ", paramMap);
+		paramMap.addValue("description", user.getDescription());
+		template.update("UPDATE users SET description=:description, email=:email WHERE id=:id ", paramMap);
 	}
 	
 	public void deleteUser(int id) {
@@ -110,6 +120,16 @@ public class JdbcUserDao implements UserDao, UserDetailsService {
 		paramMap.put("id", id);
 		
 		template.update("UPDATE users set enabled=false WHERE id=:id ", paramMap);
+	}
+
+	@Override
+	public void updateUserPassword(int id, String password) {
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("id", id);
+		paramMap.addValue("password", password);
+		
+		template.update("UPDATE users SET password=:password WHERE id=:id", paramMap);
 	}
 	
 }

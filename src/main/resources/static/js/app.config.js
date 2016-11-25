@@ -24,8 +24,6 @@ angular.module('originalCharactersApp')
 		}).
 		when('/story/:storyId/edit', {
 			template: '<story-edit></story-edit>'
-//			controller: 'StoryController',
-//			controllerAs: 'sc'
 		}).
 		when('/story', {
 			template: '<story-new></story-new>',
@@ -47,8 +45,10 @@ angular.module('originalCharactersApp')
 			template: '<user-profile></user-profile>'
 		}).
 		when('/user/:userId/edit', {
-			template: '<user-edit></user-edit>',
-			controller: 'UserController'
+			template: '<user-edit></user-edit>'
+		}).
+		when('/user/:userId/editPass', {
+			template: '<user-update-pass></user-update-pass>'
 		}).
 		when('/search-results', {
 			template: '<search-results></search-results>'
@@ -77,6 +77,24 @@ angular.module('originalCharactersApp')
 	})
 	.run(function(auth) {
 	    auth.init('/home', '/login', '/logout');
+	})
+	.directive("compareTo", function() {
+		return {
+	        require: "ngModel",
+	        scope: {
+	            otherModelValue: "=compareTo"
+	        },
+	        link: function(scope, element, attributes, ngModel) {
+	             
+	            ngModel.$validators.compareTo = function(modelValue) {
+	                return modelValue == scope.otherModelValue;
+	            };
+	 
+	            scope.$watch("otherModelValue", function() {
+	                ngModel.$validate();
+	            });
+	        }
+	    };
 	});
 
 // /home for logged in user, /character/:characterId, /searchResults, /createStory, /write?

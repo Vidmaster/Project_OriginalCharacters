@@ -2,10 +2,16 @@ angular.
   module('userProfile').
   component('userProfile', {
     templateUrl: '/js/user/user-profile.template.html',
-    controller: ['$http', '$routeParams',
-      function UserProfileController($http, $routeParams) {
+    controller: ['$http', '$routeParams', 'auth',
+      function UserProfileController($http, $routeParams, auth) {
     	var self = this;
-        this.userId = $routeParams.userId;
+        self.userId = $routeParams.userId;
+        
+        if (auth && auth.user && auth.user.principal) {
+            self.currentUser = auth.user.principal.id;
+        } else {
+        	self.currentUser = -1;
+        }
         
         $http.get('/api/users/' + $routeParams.userId).then(function (response) {
         	self.user = response.data;
