@@ -35,7 +35,7 @@ angular.module('storyDetail')
 			  $scope.loading = false;
 		  });
 		  
-	  }
+	  };
 	  $scope.newStory = newStory;
 	  
 	  
@@ -71,7 +71,7 @@ angular.module('storyDetail')
 			  }
 			  $scope.loading = false;
 		  });
-	  }
+	  };
 	  
 	  $scope.updateStory = updateStory;
   })
@@ -141,4 +141,8 @@ angular.module('storyDetail')
 	        	callback && callback();
 	        });
 		};
+		
+		self.joinStory = function(id, callback) {
+			
+		}
   });

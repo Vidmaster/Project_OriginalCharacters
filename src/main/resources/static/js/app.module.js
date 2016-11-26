@@ -9,6 +9,7 @@ angular.module('originalCharactersApp',
 		 'auth',
 		 'ocHome',
 		 'search',
+		 'character',
 		 'user',
 		 'ngRoute'
 		 ]);

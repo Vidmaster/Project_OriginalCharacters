@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.oc.database.StoryDao;
+import edu.unomaha.oc.domain.Contribution;
+import edu.unomaha.oc.domain.ServiceResponse;
 import edu.unomaha.oc.domain.Story;
 import edu.unomaha.oc.utilities.AuthUtilities;
 
@@ -110,6 +112,40 @@ public class StoryController {
 		List<Story> stories = storyDao.getStoriesByUser(id);
 		
 		return new ResponseEntity<List<Story>>(stories, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/api/stories/{id}/join", method=RequestMethod.POST)
+	public ResponseEntity<ServiceResponse> joinStory(@PathVariable("id") int id) {
+		Story story = storyDao.read(id);
+		
+		return new ResponseEntity<ServiceResponse>(new ServiceResponse("Joined", true), HttpStatus.OK);
+	}
+	
+//	@RequestMapping(value="/api/stories/{id}/contributors")
+//	public ResponseEntity<List<Integer>> getContributors(@PathVariable("id") int storyId) {
+//		return null;
+//	}
+	
+	@RequestMapping(value="/api/stories/{id}/contribute", method=RequestMethod.POST)
+	public ResponseEntity<Contribution> newContribution(@PathVariable("id") int storyId, @RequestParam("owner") int owner,
+			@RequestParam("title") String title, @RequestParam("body") String body) {
+		Contribution contribution = new Contribution();
+		
+		if (isContributor(auth.getActiveUser(), storyId)) {	
+			// make new contribution
+			// post with contribution dao
+			// get ID
+			// return ID
+			
+			return new ResponseEntity<Contribution>(contribution, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Contribution>(contribution, HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	private boolean isContributor(int userId, int storyId) {
+		Story story = storyDao.read(storyId);
+		return (userId == story.getOwner()) || (story.getContributors().contains(userId));
 	}
 	
 }

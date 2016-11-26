@@ -7,11 +7,20 @@
 			  <div class="col-lg-12">
 			    <ul class="list-inline">
 			      <li>Started by <a href="#!/user/{{$ctrl.story.owner.id}}">{{$ctrl.story.owner.username}}</a></li>
-			      <li class="footer-menu-divider">&sdot;</li>
+			      <li class="menu-divider">&sdot;</li>
 			      <li>Genre: {{$ctrl.story.genre}}</li>
-			      <li class="footer-menu-divider">&sdot;</li>
-			      <li>Contributors: {{$ctrl.story.contributors.length}}</li>
+			      <li class="menu-divider">&sdot;</li>
+			      <li ng-show="$ctrl.story.contributors.length">Contributors: {{$ctrl.story.contributors.length}}</li>
+			      <li ng-show="!$ctrl.story.contributors.length">No Contributors Yet</li>
 			      <li ng-show="$ctrl.currentUser == $ctrl.story.owner.id"><a href="#!/story/{{$ctrl.story.id}}/edit" class="btn btn-primary">Edit Story</a></li>
+			      <li ng-show="($ctrl.currentUser != $ctrl.story.owner.id) && !$ctrl.story.inviteOnly"><a href="#!/joinStory/{{$ctrl.story.id}}/edit" class="btn btn-primary">Join Story</a></li>
+			    </ul>
+			    <ul class="list-inline">
+			      <li ng-show="!$ctrl.story.visible">Not Visible to Others</li>
+			      <li ng-show="$ctrl.story.visible">Public</li>
+			      <li class="menu-divider">&sdot;</li>
+			      <li ng-show="$ctrl.story.inviteOnly">Invite Only</li>
+			      <li ng-show="!$ctrl.story.inviteOnly">Open to Join</li>
 			    </ul>
 			  </div>
 			</div>

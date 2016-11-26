@@ -31,9 +31,7 @@ angular.module('originalCharactersApp')
 			controllerAs: 'sc'
 		}).
 		when('/character', {
-			template: '<character-new></character-new>',
-			controller: 'CharacterController',
-			controllerAs: 'cc'
+			template: '<character-new></character-new>'
 		}).
 		when('/character/:characterId', {
 			template: '<character-detail></character-detail>'

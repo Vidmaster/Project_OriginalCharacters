@@ -1,15 +1,20 @@
 package edu.unomaha.oc.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import edu.unomaha.oc.domain.Contribution;
+import edu.unomaha.oc.domain.OriginalCharacter;
 import edu.unomaha.oc.domain.Story;
 
 public class JdbcStoryDao implements StoryDao {
@@ -53,7 +58,28 @@ public class JdbcStoryDao implements StoryDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		return template.queryForObject("select " + STORY_FIELDS + " from story where id=:id", paramMap, new StoryRowMapper());
+		Story story = template.queryForObject("select " + STORY_FIELDS + " from story where id=:id", paramMap, new StoryRowMapper());
+		
+		// TODO: Make use of concurrency here
+		List<Integer> contributors = template.query("SELECT id FROM users WHERE users.id in (select contributor from UserToStory where story = :id)"
+				, paramMap, new RowMapper<Integer>() {
+					@Override
+					public Integer mapRow(ResultSet rs, int row) throws SQLException {
+						return rs.getInt("id");
+					} });
+		story.setContributors(contributors);
+		
+		List<OriginalCharacter> characters = template.query("SELECT id, owner, name, appearance, personality, notes FROM characters "
+				+ "WHERE id in (select original_character from CharacterToStory where story=:id)",
+				paramMap, new CharacterRowMapper());
+		
+		List<Contribution> contributions = template.query("SELECT id, owner, story, ordering, title, body, status FROM contribution where story = :id ORDER BY ordering", 
+				paramMap, new ContributionRowMapper());
+				
+		story.setCharacters(characters);
+		story.setContributions(contributions);
+		
+		return story;
 	}
 
 	@Override
@@ -96,6 +122,7 @@ public class JdbcStoryDao implements StoryDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
+		// TODO: Proper implementation of delete - should mark the story as inactive or something instead
 		template.update("DELETE FROM Story WHERE id=:id", paramMap);
 	}
 

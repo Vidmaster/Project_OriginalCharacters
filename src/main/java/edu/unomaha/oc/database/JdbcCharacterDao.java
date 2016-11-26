@@ -23,18 +23,13 @@ public class JdbcCharacterDao implements CharacterDao {
 	private static String CHARACTER_FIELDS = "id, owner, name, appearance, personality, notes";
 	
 	@Override
-	public List<OriginalCharacter> search(String characterName) {
-		return new ArrayList<OriginalCharacter>();
-	}
-	
-	@Override
 	public List<OriginalCharacter> searchByName(String name) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
 		
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("name", '%' + name + '%');
 		
-		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM Character "
+		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM characters "
 				+ "WHERE name LIKE :name", paramMap, new CharacterRowMapper()); 
 		
 		return characters;
@@ -47,7 +42,7 @@ public class JdbcCharacterDao implements CharacterDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("owner", owner);
 		
-		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM Character "
+		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM characters "
 				+ "WHERE owner = :owner", paramMap, new CharacterRowMapper()); 
 		
 		return characters;
@@ -60,7 +55,7 @@ public class JdbcCharacterDao implements CharacterDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("contribution", contribution);
 		
-		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM Character, CharacterToContribution ctc "
+		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM characters, CharacterToContribution ctc "
 				+ "WHERE ctc.character = character.id AND ctc.contribution = :contribution", paramMap, new CharacterRowMapper()); 
 		
 		return characters;
@@ -73,8 +68,8 @@ public class JdbcCharacterDao implements CharacterDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("story", story);
 		
-		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM Character, CharacterToStory cts "
-				+ "WHERE cts.character = character.id AND cts.story = :story", paramMap, new CharacterRowMapper()); 
+		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM characters, CharacterToStory cts "
+				+ "WHERE cts.character = characters.id AND cts.story = :story", paramMap, new CharacterRowMapper()); 
 		
 		return characters;
 	}
@@ -86,19 +81,21 @@ public class JdbcCharacterDao implements CharacterDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		return template.queryForObject("select " + CHARACTER_FIELDS + " from Character where id = :id", paramMap, new CharacterRowMapper());
+		return template.queryForObject("select " + CHARACTER_FIELDS + " from characters where id = :id", paramMap, new CharacterRowMapper());
 	}
 
 	@Override
 	public Number update(int id, OriginalCharacter character) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("id", id);
-		paramMap.put("updates", "stuff");
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("name", character.getName());
+		paramMap.addValue("appearance", character.getAppearance());
+		paramMap.addValue("personality", character.getPersonality());
+		paramMap.addValue("notes", character.getNotes());
 		
-		template.update("UPDATE users SET (:updates) WHERE id=:id ", paramMap);
+		int rowsUpdated = template.update("UPDATE characters SET (name = :name, appearance = :appearance, personality = :personality, notes = :notes) WHERE id=:id ", paramMap);
 		
-		return 0;
+		return rowsUpdated;
 	}
 
 	@Override
@@ -107,9 +104,13 @@ public class JdbcCharacterDao implements CharacterDao {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
-		paramMap.addValue("value", "stuff");
+		paramMap.addValue("owner", character.getOwner());
+		paramMap.addValue("name", character.getName());
+		paramMap.addValue("appearance", character.getAppearance());
+		paramMap.addValue("personality", character.getPersonality());
+		paramMap.addValue("notes", character.getNotes());
 		
-		template.update("insert into Character values (....)", paramMap, keyHolder, new String[]{"id"});
+		template.update("INSERT INTO characters (owner, name, appearance, personality, notes) VALUES (:owner, :name, :appearance, :personality, :notes)", paramMap, keyHolder, new String[]{"id"});
 		
 		return keyHolder.getKey();
 	}

@@ -11,7 +11,32 @@ public class Story {
 	private boolean visible;
 	private boolean inviteOnly;
 	private List<Contribution> contributions;
-	private List<Character> characters;
+	private List<Integer> contributors;
+	private List<OriginalCharacter> characters;
+	
+	public List<Integer> getContributors() {
+		return contributors;
+	}
+	
+	public void setContributors(List<Integer> contributors) {
+		this.contributors = contributors;
+	}
+	
+	public List<OriginalCharacter> getCharacters() {
+		return characters;
+	}
+	
+	public void setCharacters(List<OriginalCharacter> characters) {
+		this.characters = characters;
+	}
+	
+	public List<Contribution> getContributions() {
+		return contributions;
+	}
+	
+	public void setContributions(List<Contribution> contributions) {
+		this.contributions = contributions;
+	}
 	
 	public int getId() {
 		return id;

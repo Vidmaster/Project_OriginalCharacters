@@ -42,7 +42,7 @@ public class SearchController {
 		int userId = auth.getActiveUser();
 		
 		results.addAll(storyDao.search(searchString, userId));
-		results.addAll(characterDao.search(searchString));
+		results.addAll(characterDao.searchByName(searchString));
 		results.addAll(userDao.searchByUsername(searchString));
 		
 		logger.debug(Arrays.toString(results.toArray()));

@@ -1,0 +1,34 @@
+	<a name="character"></a>
+    <div class="content-section-b" ng-controller="ViewCharacterController">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-5 col-lg-offset-1 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">{{character.name}}</h2>
+                    <p>Created by <a href="#!/users/{{character.owner.id}}">{{character.owner.username}}</a></p>
+                    <h4>Appearance:</h4>
+                    <p class="lead">
+                    {{character.appearance}}
+                    </p>
+                    <h4>Personality:</h4>
+                    <p>{{character.personality}}</p>
+                    <h4>Notes:</h4>
+                    <p>{{character.notes}}
+                </div>
+                <div class="col-lg-5 col-sm-6">
+
+                    <!-- can we maybe have a picture that someone uploaded of the character here? -->
+
+                    <img class="img-responsive" src="img/books.jpg" alt="">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-b -->

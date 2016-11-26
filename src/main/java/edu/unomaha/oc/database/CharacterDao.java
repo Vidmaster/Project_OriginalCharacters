@@ -5,8 +5,6 @@ import java.util.List;
 import edu.unomaha.oc.domain.OriginalCharacter;
 
 public interface CharacterDao {
-	public List<OriginalCharacter> search(String characterName);
-
 	public List<OriginalCharacter> searchByName(String name);
 	
 	public List<OriginalCharacter> searchByOwner(int owner);

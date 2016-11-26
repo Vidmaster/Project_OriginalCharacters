@@ -18,25 +18,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.unomaha.oc.database.CharacterDao;
 import edu.unomaha.oc.database.CharacterRowMapper;
 import edu.unomaha.oc.domain.OriginalCharacter;
+import edu.unomaha.oc.utilities.AuthUtilities;
 
 @RestController
 public class CharacterController {
 	@Autowired
 	private DataSource dataSource;
 	
+	@Autowired
+	private AuthUtilities auth;
+	
+	@Autowired
+	private CharacterDao characterDao;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value="/api/characters", method=RequestMethod.GET)
 	public ResponseEntity<List<OriginalCharacter>> searchCharactersByName(@RequestParam(value="name") String name) {
-		logger.debug("searchStoriesByTitle(): name=" + name);
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+		logger.debug("searchCharactersByName(): name=" + name);
 		
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("name", '%' + name + '%');
-		
-		List<OriginalCharacter> characters = template.query("SELECT id, name, owner, appearance, personality, notes FROM character WHERE name LIKE ':name'", paramMap, new CharacterRowMapper()); 
+		List<OriginalCharacter> characters = characterDao.searchByName(name); 
 		
 		return new ResponseEntity<List<OriginalCharacter>>(characters, HttpStatus.OK);
 	}
@@ -45,21 +49,40 @@ public class CharacterController {
 	@RequestMapping(value="/api/characters/{id}", method=RequestMethod.GET)
 	public ResponseEntity<OriginalCharacter> getCharacter(@PathVariable("id") int id) {
 		logger.debug("getCharacter(): id=" + id);
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("id", id);
 		
-		OriginalCharacter character = template.queryForObject("SELECT id, name, appearance, personality, notes FROM character WHERE id=:id", paramMap, new CharacterRowMapper());
+		OriginalCharacter character = characterDao.read(id);
+		
+		logger.debug("getCharacter(): return=" + character);
 		return new ResponseEntity<OriginalCharacter>(character, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/api/characters/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Object> updateCharacter(@PathVariable("id") int id, @RequestParam(value="name") String name, @RequestParam(value="appearance") String appearance,
+			@RequestParam(value="personality") String personality, @RequestParam(value="notes") String notes) {
+		OriginalCharacter character = characterDao.read(id);
+		if (auth.isAuthorized(character.getOwner())) {
+			character.setAppearance(appearance);
+			character.setName(name);
+			character.setNotes(notes);
+			character.setPersonality(personality);
+			
+			characterDao.update(id, character);
+			
+			return new ResponseEntity<Object>(null, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 	@RequestMapping(value="/api/characters", method=RequestMethod.POST)
-	public void saveCharacter() {
-		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("value", "stuff");
+	public ResponseEntity<OriginalCharacter> saveCharacter(@RequestParam(value="name") String name, @RequestParam(value="appearance") String appearance,
+			@RequestParam(value="personality") String personality, @RequestParam(value="notes") String notes) {
+		int owner = auth.getActiveUser();
+		OriginalCharacter character = new OriginalCharacter(-1, owner, name, appearance, personality, notes);
 		
-		template.update("insert into character values (....)", paramMap);
+		int createdId = characterDao.create(character).intValue();
+		character.setId(createdId);
+		return new ResponseEntity<OriginalCharacter>(character, HttpStatus.OK);
 	}
 	
 	

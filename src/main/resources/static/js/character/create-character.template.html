@@ -1,39 +1,43 @@
 <!-- Registration Form -->
+<div class="content-area-b" ng-controller="CharacterController">
+	<div class="container">
         <div class="row">
             <div class="col-md-8">
                 <h3>Work on your character</h3>
-                <form name="createStory" id="createStory" novalidate>
+                <form name="createCharacter" id="createCharacter" ng-submit="newCharacter(createCharacter.$valid)" novalidate>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Name:</label>
-														<input id="name" name="name" class="form-control" type="text" maxlength="255" value=""/>
+							<input id="name" name="name" class="form-control" type="text" maxlength="250" required value="" ng-model="formData.name"/>
                         </div>
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Appearance:</label>
-														<textarea rows="7" cols="100" id="appearance" name="appearance" class="form-control"></textarea>
+							<textarea rows="7" cols="100" id="appearance" name="appearance" class="form-control" ng-model="formData.appearance"></textarea>
                         </div>
                     </div>
 
-										<div class="control-group form-group">
+					<div class="control-group form-group">
                         <div class="controls">
                             <label>Personality:</label>
-														<textarea rows="7" cols="100" id="personality" name="personality" class="form-control"></textarea>
+							<textarea rows="7" cols="100" id="personality" name="personality" class="form-control" ng-model="formData.personality"></textarea>
                         </div>
                     </div>
 
-										<div class="control-group form-group">
+					<div class="control-group form-group">
                         <div class="controls">
                             <label>Notes:</label>
-														<textarea rows="7" cols="100" id="notes" name="notes" class="form-control"></textarea>
+							<textarea rows="7" cols="100" id="notes" name="notes" class="form-control" ng-model="formData.notes"></textarea>
                         </div>
                     </div>
 
                     <div id="success"></div>
                     <!-- For success/fail messages -->
-                    <button type="submit" class="btn btn-primary">Save Story</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="createCharacter.$invalid">Save Character</button><a href="#!/home" class="btn">Cancel</a>
                 </form>
             </div>
         </div>
+	</div>
+</div>
         <!-- /.row -->

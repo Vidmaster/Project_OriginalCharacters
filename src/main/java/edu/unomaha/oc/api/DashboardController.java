@@ -70,8 +70,8 @@ public class DashboardController {
 		HttpStatus status = HttpStatus.OK;
 		
 		String storiesSql = "SELECT " + STORY_FIELDS + " FROM story WHERE owner = :userId ORDER BY id DESC";
-		String charactersSql = "SELECT id, name FROM characters WHERE owner = :userId ORDER BY name";
-		String contributionsSql = "SELECT things FROM contribution WHERE owner = :userId";
+		String charactersSql = "SELECT id, owner, name, appearance, personality, notes FROM characters WHERE owner = :userId ORDER BY name";
+		String contributionsSql = "SELECT id, owner, story, order, title, body, status FROM contribution WHERE owner = :userId";
 		
 		paramMap.addValue("userId", id);
 		
