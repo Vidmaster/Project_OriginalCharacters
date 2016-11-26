@@ -57,8 +57,8 @@ public class CharacterController {
 	}
 	
 	@RequestMapping(value="/api/characters/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Object> updateCharacter(@PathVariable("id") int id, @RequestParam(value="name") String name, @RequestParam(value="appearance") String appearance,
-			@RequestParam(value="personality") String personality, @RequestParam(value="notes") String notes) {
+	public ResponseEntity<Object> updateCharacter(@PathVariable("id") int id, @RequestParam(value="name") String name, @RequestParam(value="appearance", defaultValue="") String appearance,
+			@RequestParam(value="personality", defaultValue="") String personality, @RequestParam(value="notes", defaultValue="") String notes) {
 		OriginalCharacter character = characterDao.read(id);
 		if (auth.isAuthorized(character.getOwner())) {
 			character.setAppearance(appearance);
@@ -70,13 +70,14 @@ public class CharacterController {
 			
 			return new ResponseEntity<Object>(null, HttpStatus.OK);
 		} else {
+			logger.warn("Unauthorized attempt to update character " + id);
 			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
 	@RequestMapping(value="/api/characters", method=RequestMethod.POST)
-	public ResponseEntity<OriginalCharacter> saveCharacter(@RequestParam(value="name") String name, @RequestParam(value="appearance") String appearance,
-			@RequestParam(value="personality") String personality, @RequestParam(value="notes") String notes) {
+	public ResponseEntity<OriginalCharacter> saveCharacter(@RequestParam(value="name") String name, @RequestParam(value="appearance", defaultValue="") String appearance,
+			@RequestParam(value="personality", defaultValue="") String personality, @RequestParam(value="notes", defaultValue="") String notes) {
 		int owner = auth.getActiveUser();
 		OriginalCharacter character = new OriginalCharacter(-1, owner, name, appearance, personality, notes);
 		

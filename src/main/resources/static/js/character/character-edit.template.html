@@ -1,9 +1,9 @@
-<div class="content-area-b" ng-controller="CharacterController">
+<div class="content-area-b" ng-controller="EditCharacterController">
 	<div class="container">
         <div class="row">
             <div class="col-md-8">
                 <h3>Work on your character</h3>
-                <form name="createCharacter" id="createCharacter" ng-submit="newCharacter(createCharacter.$valid)" novalidate>
+                <form name="editCharacter" id="editCharacter" ng-submit="updateCharacter(editCharacter.$valid)" novalidate>
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Name:</label>
@@ -33,7 +33,7 @@
 
                     <div id="success"></div>
                     <!-- For success/fail messages -->
-                    <button type="submit" class="btn btn-primary" ng-disabled="createCharacter.$invalid">Save Character</button><a href="#!/home" class="btn">Cancel</a>
+                    <button type="submit" class="btn btn-primary" ng-disabled="editCharacter.$invalid">Update Character</button><a href="#!/home" class="btn">Cancel</a>
                 </form>
             </div>
         </div>

@@ -88,12 +88,13 @@ public class JdbcCharacterDao implements CharacterDao {
 	public Number update(int id, OriginalCharacter character) {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("id", id);
 		paramMap.addValue("name", character.getName());
 		paramMap.addValue("appearance", character.getAppearance());
 		paramMap.addValue("personality", character.getPersonality());
 		paramMap.addValue("notes", character.getNotes());
 		
-		int rowsUpdated = template.update("UPDATE characters SET (name = :name, appearance = :appearance, personality = :personality, notes = :notes) WHERE id=:id ", paramMap);
+		int rowsUpdated = template.update("UPDATE characters SET name = :name, appearance = :appearance, personality = :personality, notes = :notes WHERE id=:id ", paramMap);
 		
 		return rowsUpdated;
 	}

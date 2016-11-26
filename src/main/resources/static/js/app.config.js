@@ -25,6 +25,9 @@ angular.module('originalCharactersApp')
 		when('/story/:storyId/edit', {
 			template: '<story-edit></story-edit>'
 		}).
+		when('/story/:storyId/contribute', {
+			template: '<story-edit></story-edit>'
+		}).
 		when('/story', {
 			template: '<story-new></story-new>',
 			controller: 'StoryController',

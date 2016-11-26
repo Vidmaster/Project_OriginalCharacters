@@ -69,7 +69,7 @@ public class DashboardController {
 		Map<String,Object> results = new HashMap<String,Object>();
 		HttpStatus status = HttpStatus.OK;
 		
-		String storiesSql = "SELECT " + STORY_FIELDS + " FROM story WHERE owner = :userId ORDER BY id DESC";
+		String storiesSql = "SELECT " + STORY_FIELDS + " FROM story WHERE owner = :userId OR id in (SELECT story FROM UserToStory WHERE contributor = :userId) ORDER BY id DESC";
 		String charactersSql = "SELECT id, owner, name, appearance, personality, notes FROM characters WHERE owner = :userId ORDER BY name";
 		String contributionsSql = "SELECT id, owner, story, order, title, body, status FROM contribution WHERE owner = :userId";
 		

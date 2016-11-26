@@ -8,16 +8,14 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">{{character.name}}</h2>
-                    <p>Created by <a href="#!/users/{{character.owner.id}}">{{character.owner.username}}</a></p>
+                    <h2 class="section-heading">{{character.name}}  <a class="btn btn-primary" ng-show="character.owner = currentUser" href="#!/character/{{character.id}}/edit">Edit Character</a></h2>
+                    <p>Created by <a href="#!/users/{{character.dude.id}}">{{character.dude.username}}</a></p>
                     <h4>Appearance:</h4>
-                    <p class="lead">
-                    {{character.appearance}}
-                    </p>
+                    <p style="white-space:pre-wrap;">{{character.appearance}}</p>
                     <h4>Personality:</h4>
-                    <p>{{character.personality}}</p>
+                    <p style="white-space:pre-wrap;">{{character.personality}}</p>
                     <h4>Notes:</h4>
-                    <p>{{character.notes}}
+                    <p style="white-space:pre-wrap;">{{character.notes}}
                 </div>
                 <div class="col-lg-5 col-sm-6">
 
