@@ -127,7 +127,11 @@ public class JdbcStoryDao implements StoryDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		// TODO: Proper implementation of delete - should mark the story as inactive or something instead
+		// TODO: Proper implementation of delete - should mark the story as inactive or something instead so people don't lose their work
+		template.update("DELETE FROM CharacterToContribution WHERE contribution in (SELECT id FROM contribution where story = :id)", paramMap);
+		template.update("DELETE FROM contribution WHERE story = :id", paramMap);
+		template.update("DELETE FROM CharacterToStory WHERE story = :id", paramMap);
+		template.update("DELETE FROM comment WHERE story = :id", paramMap);
 		template.update("DELETE FROM story WHERE id=:id", paramMap);
 	}
 

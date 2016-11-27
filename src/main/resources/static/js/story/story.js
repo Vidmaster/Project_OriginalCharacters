@@ -43,6 +43,24 @@ angular.module('story', [])
 	    			$location.path("/home");
 	    		}
 	    	});
+	    };
+	    
+	    self.deleteStory = function() {
+	    	if (confirm("Are you SURE you want to delete this story?")) {
+	    		if (confirm("Are you REALLY SURE? There is no going back!")) {
+	    			storyService.deleteStory(self.story.id, function() {
+	    	    		if (storyService.error) {
+	    	    			console.log('error deleting story');
+	    	    			self.message = message;
+	    	    			self.error = true;
+	    	    		} else {
+	    	    			console.log('deleted story');
+	    	    			self.error = false;
+	    	    			$location.path("/home");
+	    	    		}
+	    	    	});
+	    		}
+	    	}
 	    }
 
   })
@@ -203,6 +221,23 @@ angular.module('story', [])
 				self.error = true;
 				callback && callback();
 			});
+		};
+		
+		self.deleteStory = function(id, callback) {
+			console.log('deleting story ' + id);
+			self.error = false;
+			$http({
+				method: 'DELETE',
+				url: '/api/stories/' + id
+			}).success(function(response) {
+				console.log('delete success');
+				callback && callback();
+			}).error(function(response) {
+				console.log('delete error');
+				self.message = "An error occurred when trying to delete this story";
+				self.error = true;
+				callback && callback();
+			});
 		}
   });
 
@@ -245,9 +280,19 @@ angular.module('story')
 		}
 		$scope.newContribution = newContribution;
 	})
+	.controller('EditContributionController', function() {
+		contributionService.
+	})
 	.service('contributionService', function($http) {
 		var self = this;
 		console.log('contribution service');
+		
+		self.readContribution = function(id, callback) {
+			$http.get('/api/contributions/' + id).then(function(response) {
+				self.contribution = response.data;
+				callback && callback();
+			});
+		};
 		
 		self.newContribution = function(story, postData, callback) {
 			console.log(postData);
@@ -271,4 +316,27 @@ angular.module('story')
 				callback && callback();
 			});
 		};
+		
+		self.editContribution = function(data, callback) {
+			console.log(data);
+			self.error = false;
+			$http({
+				method: 'PUT',
+				url: '/api/stories/' + data.story + '/' + data.id,
+				data: angular.toJson(data),
+				headers: {'Content-Type': 'application/json'}
+			}).success(function(response) {
+				console.log('post success');
+			    console.log(response);
+			    self.message = "Successfully edited contribution";
+			    callback && callback();
+			}).error(function(response) {
+				console.log('post error');
+				console.log(response);
+				self.message = "An error occurred. Please try again.";
+				self.error = true;
+				callback && callback();
+			});
+		};
+		
 	});

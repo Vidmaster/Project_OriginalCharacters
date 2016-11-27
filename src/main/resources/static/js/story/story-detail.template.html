@@ -15,6 +15,7 @@
 			      <li ng-show="$ctrl.currentUser == $ctrl.story.owner.id"><a href="#!/story/{{$ctrl.story.id}}/edit" class="btn btn-primary">Edit Story Details</a></li>
 			      <li ng-show="($ctrl.currentUser != -1) && ($ctrl.currentUser != $ctrl.story.owner.id) && !$ctrl.story.inviteOnly && !($ctrl.story.contributors.includes($ctrl.currentUser))"><button ng-click="$ctrl.joinStory()" class="btn btn-primary">Join Story</a></li>
 			      <li ng-show="($ctrl.currentUser == $ctrl.story.owner.id) || ($ctrl.story.contributors.includes($ctrl.currentUser))"><a href="#!/story/{{$ctrl.story.id}}/contribute" class="btn btn-primary">Write A Contribution</a></li>
+			      <li ng-show="$ctrl.currentUser == $ctrl.story.owner.id"><button ng-click="$ctrl.deleteStory()" class="btn btn-danger">Delete Story</button></li>
 			    </ul>
 			    <ul class="list-inline">
 			      <li ng-show="!$ctrl.story.visible">Not Visible to Others</li>

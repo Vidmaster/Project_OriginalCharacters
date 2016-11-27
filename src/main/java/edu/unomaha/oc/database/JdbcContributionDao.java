@@ -121,6 +121,7 @@ public class JdbcContributionDao implements ContributionDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
+		// TODO: Delete tags and such too
 		template.update("DELETE FROM contribution WHERE id = :id", paramMap);
 	}
 
