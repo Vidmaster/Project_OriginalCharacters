@@ -281,7 +281,7 @@ angular.module('story')
 		$scope.newContribution = newContribution;
 	})
 	.controller('EditContributionController', function() {
-		contributionService.
+		var self = this;
 	})
 	.service('contributionService', function($http) {
 		var self = this;
