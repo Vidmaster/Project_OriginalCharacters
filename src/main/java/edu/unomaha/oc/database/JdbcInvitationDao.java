@@ -28,7 +28,7 @@ public class JdbcInvitationDao implements InvitationDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("sender", sender);
 		
-		List<Invitation> invitations = template.query("SELECT " + INVITATION_FIELDS + " FROM Invitation "
+		List<Invitation> invitations = template.query("SELECT " + INVITATION_FIELDS + " FROM invitation "
 				+ "WHERE sender = :sender", paramMap, new InvitationRowMapper()); 
 		
 		return invitations;
@@ -41,7 +41,7 @@ public class JdbcInvitationDao implements InvitationDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("recipient", recipient);
 		
-		List<Invitation> invitations = template.query("SELECT " + INVITATION_FIELDS + " FROM Invitation "
+		List<Invitation> invitations = template.query("SELECT " + INVITATION_FIELDS + " FROM invitation "
 				+ "WHERE recipient = :recipient", paramMap, new InvitationRowMapper()); 
 		
 		return invitations;
@@ -54,7 +54,7 @@ public class JdbcInvitationDao implements InvitationDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("story", story);
 		
-		List<Invitation> invitations = template.query("SELECT " + INVITATION_FIELDS + " FROM Invitation "
+		List<Invitation> invitations = template.query("SELECT " + INVITATION_FIELDS + " FROM invitation "
 				+ "WHERE story = :story", paramMap, new InvitationRowMapper()); 
 		
 		return invitations;
@@ -67,7 +67,7 @@ public class JdbcInvitationDao implements InvitationDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		return template.queryForObject("select " + INVITATION_FIELDS + " from Invitation where id = :id", paramMap, new InvitationRowMapper());
+		return template.queryForObject("select " + INVITATION_FIELDS + " from invitation where id = :id", paramMap, new InvitationRowMapper());
 	}
 
 	@Override
@@ -90,9 +90,10 @@ public class JdbcInvitationDao implements InvitationDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("value", "stuff");
 		
-		template.update("insert into Invitation values (....)", paramMap, keyHolder, new String[]{"id"});
+		// TODO: Implement this!
+		//template.update("insert into invitation values (....)", paramMap, keyHolder, new String[]{"id"});
 		
-		return keyHolder.getKey();
+		return 1; //keyHolder.getKey();
 	}
 
 	@Override
@@ -101,7 +102,7 @@ public class JdbcInvitationDao implements InvitationDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		template.update("DELETE FROM Invitation WHERE id = :id", paramMap);
+		template.update("DELETE FROM invitation WHERE id = :id", paramMap);
 	}
 
 }

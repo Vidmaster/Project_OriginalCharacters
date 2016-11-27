@@ -1,6 +1,12 @@
 package edu.unomaha.oc.domain;
 
 public class Invitation {
+	public static final String STATUS_APPROVED = "Approved";
+	public static final String STATUS_PENDING = "Pending";
+	public static final String STATUS_REJECTED = "Rejected";
+	public static final String TYPE_INVITATION = "Invitation";
+	public static final String TYPE_APPROVAL = "Approval";
+	
 	private int id;
 	private int sender;
 	private int recipient;

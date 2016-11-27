@@ -63,7 +63,7 @@ angular.module('originalCharactersApp')
 	}
 ])
 	.controller('app', function($scope, $window, auth) {
-		$scope.user = auth.user;
+		if (auth && auth.user) $scope.user = auth.user;
 		
 		$scope.logout = function() {
 			auth.clear();
@@ -100,5 +100,3 @@ angular.module('originalCharactersApp')
 	        }
 	    };
 	});
-
-// /home for logged in user, /character/:characterId, /searchResults, /createStory, /write?

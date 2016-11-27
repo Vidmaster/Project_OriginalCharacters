@@ -1,50 +1,41 @@
 <div class="content-section-b">
 	<div class="container">
-        <div class="row" ng-controller="StoryController">
+        <div class="row" ng-controller="ContributionController">
             <div class="col-md-8">
-                <h3>Start a new story</h3>
+                <h3>Contribute to the story</h3>
                 <div id="messages" class="alert alert-danger" ng-show="message">
 				    {{message}}
 				</div>
-                <form name="createStory" id="createStory" novalidate ng-submit="newStory(createStory.$valid)">
+                <form name="contribution" id="contribution" novalidate ng-submit="newContribution(contribution.$valid)">
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Title:</label>
-							<input id="title" name="title" class="form-control" type="text" maxlength="1000" value="" placeholder="Story Title" ng-model="formData.title" autofocus required/>
+							<input id="title" name="title" class="form-control" type="text" maxlength="1000" value="" placeholder="Contribution Title" ng-model="formData.title" autofocus required/>
                         </div>
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
-                            <label>Description:</label>
-							<textarea rows="10" cols="100" id="description" name="description" placeholder="A short description of your story" class="form-control" ng-model="formData.description"></textarea>
+                            <label>Body:</label>
+							<textarea rows="20" cols="100" id="body" name="body" placeholder="The text of your contribution" class="form-control" ng-model="formData.body" required></textarea>
                         </div>
                     </div>
-
+                    
 					<div class="control-group form-group">
 						<div class="controls">
-								<label>Genre:</label>
-								<input id="genre" name="genre" class="form-control" type="text" placeholder="The genre of the story" maxlength="250" value="" ng-model="formData.genre"/>
-						</div>
-					</div>
-
-					<div class="control-group form-group">
-						<div class="controls">
-							<input id="visible" name="visible" type="checkbox" value="1" checked ng-model="formData.visible" />
-							<label for="visible">Visible</label>
-						</div>
-					</div>
-
-					<div class="control-group form-group">
-						<div class="controls">
-							<input id="invite" name="invite" type="checkbox" value="1" ng-model="formData.inviteOnly"/>
-							<label for="invite">Invite Only</label>
+							<!-- This is currently behaving strangely and not sizing well. input-sm and -lg make it look ok but it doesn't autoresize. 
+										not putting any input class on it makes it absolutely massive -->
+							<label for="tags">Characters in this contribution:</label>
+							<tags-input class="input-lg" id="tags" ng-model="formData.characters" placeholder="Tag characters appearing in this contribution..." 
+									display-property="name" key-property="id" add-from-autocomplete-only=true >
+								<auto-complete source="loadTags($query)" min-length=1 template="/js/story/contribution-charactertag.template.html"></auto-complete>
+							</tags-input>
 						</div>
 					</div>
 
                     <div id="success"></div>
                     <!-- For success/fail messages -->
                     <img ng-if="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                    <button type="submit" class="btn btn-primary" ng-disabled="createStory.$invalid">Save Story</button><a href="#!/home" class="btn btn-link">Cancel</a>
+                    <button type="submit" class="btn btn-primary" ng-disabled="contribution.$invalid">Save Story</button><a href="#!/home" class="btn btn-link">Cancel</a>
                 </form>
             </div>
         </div>

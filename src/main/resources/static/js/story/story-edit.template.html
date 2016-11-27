@@ -10,7 +10,7 @@
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Title:</label>
-							<input id="title" name="title" class="form-control" type="text" maxlength="1000" value="" placeholder="Story Title" ng-model="formData.title" required/>
+							<input id="title" name="title" class="form-control" type="text" maxlength="1000" value="" placeholder="Story Title" ng-model="formData.title" autofocus required />
                         </div>
                     </div>
                     <div class="control-group form-group">
@@ -29,15 +29,15 @@
 
 					<div class="control-group form-group">
 						<div class="controls">
-							<input id="visible" name="visible" class="form-control" type="checkbox" value="1" checked ng-model="formData.visible" />
-							<label class="form-control" for="visible">Visible</label>
+							<input id="visible" name="visible" type="checkbox" value="1" checked ng-model="formData.visible" />
+							<label for="visible">Visible</label>
 						</div>
 					</div>
 
 					<div class="control-group form-group">
 						<div class="controls">
-							<input id="invite" name="invite" class="form-control" type="checkbox" value="1" ng-model="formData.inviteOnly"/>
-							<label class="form-control" for="invite">Invite Only</label>
+							<input id="invite" name="invite" type="checkbox" value="1" ng-model="formData.inviteOnly"/>
+							<label for="invite">Invite Only</label>
 						</div>
 					</div>
 

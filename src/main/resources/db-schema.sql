@@ -56,7 +56,7 @@ create table contribution (
 	id int not null auto_increment,
 	owner int not null references users (id),
 	story int not null references story (id),
-	ordering int not null, 
+	ordering int not null default 0, 
 	title varchar(1000),
 	body text,
 	status varchar(20),

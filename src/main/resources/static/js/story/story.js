@@ -1,4 +1,4 @@
-angular.module('storyDetail', [])
+angular.module('story', [])
   .component('storyNew', {
 	  templateUrl: '/js/story/story-new.template.html'
   })
@@ -40,7 +40,6 @@ angular.module('storyDetail', [])
 	    		} else {
 	    			console.log('joined story');
 	    			self.error = false;
-	    			self.message = storyService.message;
 	    			$location.path("/home");
 	    		}
 	    	});
@@ -206,3 +205,70 @@ angular.module('storyDetail', [])
 			});
 		}
   });
+
+// Modules pertaining to contributions
+angular.module('story')
+	.component('contributionNew', {
+		templateUrl: '/js/story/contribution-new.template.html'
+	})
+	.controller('ContributionController', function($scope, $routeParams, $location, $http, contributionService) {
+		var self=this;
+		$scope.formData = { };
+		
+		console.log('contribution controller');
+		
+		var loadTags = function(query) {
+			console.log(query);
+			return $http.get('/api/characters?name=' + query);
+		}
+		$scope.loadTags = loadTags;
+		
+		var newContribution = function(valid) {
+			console.log('new contribution');
+			console.log($scope.formData);
+			data = $scope.formData;
+
+			console.log(data);
+			
+			contributionService.newContribution($routeParams.storyId, data, function() { 
+				console.log('callback');
+				$scope.loading = false;
+				if (contributionService.error) {
+					  $scope.message = contributionService.message;
+					  $scope.error = true;
+				  } else {
+					  console.log('going to id ' + contributionService.storyId);
+					  $location.path('/story/' + contributionService.storyId);
+				  }
+				
+			});
+		}
+		$scope.newContribution = newContribution;
+	})
+	.service('contributionService', function($http) {
+		var self = this;
+		console.log('contribution service');
+		
+		self.newContribution = function(story, postData, callback) {
+			console.log(postData);
+			self.error = false;
+			self.storyId = story;
+			$http({
+				method: 'POST',
+				url: '/api/stories/' + story + '/contribute',
+				data: angular.toJson(postData),
+				headers: {'Content-Type': 'application/json'}
+			}).success(function(response) {
+				console.log('post success');
+			    console.log(response);
+			    self.message = "Successfully posted contribution";
+			    callback && callback();
+			}).error(function(response) {
+				console.log('post error');
+				console.log(response);
+				self.message = "An error occurred. Please try again.";
+				self.error = true;
+				callback && callback();
+			});
+		};
+	});

@@ -28,7 +28,7 @@ public class JdbcCommentDao implements CommentDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("commenter", commenter);
 		
-		List<Comment> comments = template.query("SELECT " + COMMENT_FIELDS + " FROM Comment "
+		List<Comment> comments = template.query("SELECT " + COMMENT_FIELDS + " FROM comment "
 				+ "WHERE commenter = :commenter", paramMap, new CommentRowMapper()); 
 		
 		return comments;
@@ -41,7 +41,7 @@ public class JdbcCommentDao implements CommentDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("story", story);
 		
-		List<Comment> comments = template.query("SELECT " + COMMENT_FIELDS + " FROM Comment "
+		List<Comment> comments = template.query("SELECT " + COMMENT_FIELDS + " FROM comment "
 				+ "WHERE story = :story", paramMap, new CommentRowMapper()); 
 		
 		return comments;
@@ -54,7 +54,7 @@ public class JdbcCommentDao implements CommentDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		return template.queryForObject("select " + COMMENT_FIELDS + " from Comment where id = :id", paramMap, new CommentRowMapper());
+		return template.queryForObject("select " + COMMENT_FIELDS + " from comment where id = :id", paramMap, new CommentRowMapper());
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class JdbcCommentDao implements CommentDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("value", "stuff");
 		
-		template.update("insert into Comment values (....)", paramMap, keyHolder, new String[]{"id"});
+		template.update("insert into comment values (....)", paramMap, keyHolder, new String[]{"id"});
 		
 		return keyHolder.getKey();
 	}
@@ -88,7 +88,7 @@ public class JdbcCommentDao implements CommentDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		template.update("DELETE FROM Comment WHERE id = :id", paramMap);
+		template.update("DELETE FROM comment WHERE id = :id", paramMap);
 	}
 
 }

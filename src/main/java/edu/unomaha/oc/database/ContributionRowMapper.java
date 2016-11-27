@@ -14,7 +14,7 @@ public class ContributionRowMapper implements RowMapper<Contribution> {
 		int id = rs.getInt("id");
 		int owner = rs.getInt("owner");
 		int story = rs.getInt("story");
-		int order = rs.getInt("order");
+		int order = rs.getInt("ordering");
 		String title = rs.getString("title");
 		String body = rs.getString("body");
 		String status = rs.getString("status");

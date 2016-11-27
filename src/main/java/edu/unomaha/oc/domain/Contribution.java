@@ -1,6 +1,12 @@
 package edu.unomaha.oc.domain;
 
+import java.util.List;
+
 public class Contribution {
+	public static final String STATUS_APPROVED = "Approved";
+	public static final String STATUS_PENDING_APPROVAL = "Pending Approvals";
+	public static final String STATUS_REJECTED = "Rejected";
+	
 	private int id;
 	private int owner;
 	private int story;
@@ -8,6 +14,7 @@ public class Contribution {
 	private String title;
 	private String body;
 	private String status;
+	private List<OriginalCharacter> characters;
 	
 	public int getId() {
 		return id;
@@ -52,6 +59,15 @@ public class Contribution {
 		this.status = status;
 	}
 	
+	public void setCharacters(List<OriginalCharacter> characters) {
+		this.characters = characters;
+	}
+	
+	public List<OriginalCharacter> getCharacters() {
+		return characters;
+	}
+	
+	
 	public Contribution(int id, int owner, int story, int order, String title, String body, String status) {
 		this.id = id;
 		this.owner = owner;
@@ -64,6 +80,12 @@ public class Contribution {
 	
 	public Contribution() {
 		
+	}
+	
+	@Override
+	public String toString() {
+		return "Contribution [id=" + id + ", owner=" + owner + ", story=" + story + ", order=" + order + ", title="
+				+ title + ", body=" + body + ", status=" + status + ", characters=" + characters + "]";
 	}
 	
 }

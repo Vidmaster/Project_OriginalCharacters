@@ -1,6 +1,9 @@
 package edu.unomaha.oc.api;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,14 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.unomaha.oc.database.ContributionDao;
 import edu.unomaha.oc.database.StoryDao;
 import edu.unomaha.oc.domain.Contribution;
-import edu.unomaha.oc.domain.ServiceResponse;
+import edu.unomaha.oc.domain.OriginalCharacter;
 import edu.unomaha.oc.domain.Story;
 import edu.unomaha.oc.utilities.AuthUtilities;
 
@@ -26,6 +31,9 @@ public class StoryController {
 	
 	@Autowired
 	private StoryDao storyDao;
+	
+	@Autowired
+	private ContributionDao contributionDao;
 	
 	@Autowired
 	private AuthUtilities auth;
@@ -129,15 +137,14 @@ public class StoryController {
 	}
 	
 	@RequestMapping(value="/api/stories/{id}/contribute", method=RequestMethod.POST)
-	public ResponseEntity<Contribution> newContribution(@PathVariable("id") int storyId, @RequestParam("owner") int owner,
-			@RequestParam("title") String title, @RequestParam("body") String body) {
-		Contribution contribution = new Contribution();
+	public ResponseEntity<Contribution> newContribution(@PathVariable("id") int storyId, @RequestBody Contribution contribution) {
 		
+		logger.debug("newContribution: storyId=" + storyId + "contribution=" + contribution.toString());
 		if (isContributor(auth.getActiveUser(), storyId)) {	
-			// make new contribution
-			// post with contribution dao
-			// get ID
-			// return ID
+			contribution.setOwner(auth.getActiveUser());
+			contribution.setStory(storyId);
+			Number contributionId = contributionDao.create(contribution);
+			contribution.setId(contributionId.intValue());
 			
 			return new ResponseEntity<Contribution>(contribution, HttpStatus.OK);
 		} else {

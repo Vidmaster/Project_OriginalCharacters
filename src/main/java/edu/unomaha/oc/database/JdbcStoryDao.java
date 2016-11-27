@@ -78,7 +78,7 @@ public class JdbcStoryDao implements StoryDao {
 				+ "WHERE id in (select original_character from CharacterToStory where story=:id)",
 				paramMap, new CharacterRowMapper());
 		
-		List<Contribution> contributions = template.query("SELECT id, owner, story, ordering, title, body, status FROM contribution where story = :id ORDER BY ordering", 
+		List<Contribution> contributions = template.query("SELECT id, owner, story, ordering, title, body, status FROM contribution WHERE story = :id ORDER BY ordering", 
 				paramMap, new ContributionRowMapper());
 				
 		story.setCharacters(characters);
@@ -98,7 +98,7 @@ public class JdbcStoryDao implements StoryDao {
 		paramMap.addValue("visible", story.isVisible());
 		paramMap.addValue("inviteOnly", story.isInviteOnly());
 		
-		int rowsAffected = template.update("UPDATE Story SET title=:title, description=:description, genre=:genre, visible=:visible, inviteonly=:inviteOnly WHERE id=:id", paramMap);
+		int rowsAffected = template.update("UPDATE story SET title=:title, description=:description, genre=:genre, visible=:visible, inviteonly=:inviteOnly WHERE id=:id", paramMap);
 		
 		return rowsAffected;
 	}
@@ -116,7 +116,7 @@ public class JdbcStoryDao implements StoryDao {
 		paramMap.addValue("visible", story.isVisible());
 		paramMap.addValue("inviteOnly", story.isInviteOnly());
 		
-		template.update("insert into Story (owner, title, description, genre, visible, inviteonly) values (:owner, :title, :description, :genre, :visible, :inviteOnly)", paramMap, keyHolder, new String[]{"id"});
+		template.update("insert into story (owner, title, description, genre, visible, inviteonly) values (:owner, :title, :description, :genre, :visible, :inviteOnly)", paramMap, keyHolder, new String[]{"id"});
 		
 		return keyHolder.getKey();
 	}
@@ -128,7 +128,7 @@ public class JdbcStoryDao implements StoryDao {
 		paramMap.addValue("id", id);
 		
 		// TODO: Proper implementation of delete - should mark the story as inactive or something instead
-		template.update("DELETE FROM Story WHERE id=:id", paramMap);
+		template.update("DELETE FROM story WHERE id=:id", paramMap);
 	}
 
 	@Override

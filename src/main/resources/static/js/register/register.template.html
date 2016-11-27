@@ -9,7 +9,7 @@
 	                 <div class="control-group form-group" ng-class="{ 'has-error' : formData.username.$invalid && !formData.username.$pristine}">
 	                     <div class="controls">
 	                         <label>Username:</label>
-	                         <input type="text" class="form-control" id="username" placeholder="Username" required ng-model="formData.username" ng-minlength=3 ng-maxlength=60>
+	                         <input type="text" class="form-control" id="username" placeholder="Username" required autofocus ng-model="formData.username" ng-minlength=3 ng-maxlength=60>
 	                         <p ng-show="registerUser.username.$error.minlength" class="help-block">Username is too short.</p>
   							 <p ng-show="registerUser.username.$error.maxlength" class="help-block">Username is too long.</p>
 	                     </div>

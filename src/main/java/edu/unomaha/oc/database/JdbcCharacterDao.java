@@ -1,9 +1,6 @@
 package edu.unomaha.oc.database;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -122,7 +119,7 @@ public class JdbcCharacterDao implements CharacterDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		template.update("DELETE FROM Character WHERE id = :id", paramMap);
+		template.update("DELETE FROM characters WHERE id = :id", paramMap);
 	}
 
 }

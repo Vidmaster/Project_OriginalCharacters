@@ -1,7 +1,8 @@
 angular.module('originalCharactersApp', 
 		[
+		 'ngTagsInput',
 		 'dashboard',
-		 'storyDetail',
+		 'story',
 		 'ocIndex',
 		 'userProfile',
 		 'register',
