@@ -17,6 +17,11 @@ import edu.unomaha.oc.domain.Contribution;
 import edu.unomaha.oc.domain.OriginalCharacter;
 import edu.unomaha.oc.domain.Story;
 
+/**
+ * This class is a JDBC/MySQL implementation of the StoryDao interface using a configurable DataSource
+ * For improved compatibility, the queries could be refactored out into an injectable class so the MySQL syntax isn't hardwired into this class
+ *
+ */
 public class JdbcStoryDao implements StoryDao {
 
 	@Autowired
@@ -124,6 +129,16 @@ public class JdbcStoryDao implements StoryDao {
 		
 		// TODO: Proper implementation of delete - should mark the story as inactive or something instead
 		template.update("DELETE FROM Story WHERE id=:id", paramMap);
+	}
+
+	@Override
+	public void joinStory(int storyId, int userId) {
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("story", storyId);
+		paramMap.addValue("contributor", userId);
+		
+		template.update("INSERT INTO UserToStory (story, contributor) VALUES (:story, :contributor)", paramMap);
 	}
 
 }

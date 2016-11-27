@@ -44,9 +44,12 @@ create table characters (
 	appearance text,
 	personality text,
 	notes text,
+	boolean taggable default true,
+	boolean notify_on_tag default true,
 	primary key (id),
 	index NAME_INDEX (name),
-	index OWNER_INDEX (owner)
+	index OWNER_INDEX (owner),
+	index TAGGABLE_INDEX (taggable)
 );
 
 create table contribution (

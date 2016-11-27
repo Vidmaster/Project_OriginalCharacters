@@ -13,7 +13,7 @@
 			      <li ng-show="$ctrl.story.contributors.length">Contributors: {{$ctrl.story.contributors.length}}</li>
 			      <li ng-show="!$ctrl.story.contributors.length">No Contributors Yet</li>
 			      <li ng-show="$ctrl.currentUser == $ctrl.story.owner.id"><a href="#!/story/{{$ctrl.story.id}}/edit" class="btn btn-primary">Edit Story Details</a></li>
-			      <li ng-show="($ctrl.currentUser != $ctrl.story.owner.id) && !$ctrl.story.inviteOnly && !($ctrl.story.contributors.includes($ctrl.currentUser))"><a href="#!/joinStory/{{$ctrl.story.id}}" class="btn btn-primary">Join Story</a></li>
+			      <li ng-show="($ctrl.currentUser != -1) && ($ctrl.currentUser != $ctrl.story.owner.id) && !$ctrl.story.inviteOnly && !($ctrl.story.contributors.includes($ctrl.currentUser))"><button ng-click="$ctrl.joinStory()" class="btn btn-primary">Join Story</a></li>
 			      <li ng-show="($ctrl.currentUser == $ctrl.story.owner.id) || ($ctrl.story.contributors.includes($ctrl.currentUser))"><a href="#!/story/{{$ctrl.story.id}}/contribute" class="btn btn-primary">Write A Contribution</a></li>
 			    </ul>
 			    <ul class="list-inline">
@@ -23,6 +23,9 @@
 			      <li ng-show="$ctrl.story.inviteOnly">Invite Only</li>
 			      <li ng-show="!$ctrl.story.inviteOnly">Open to Join</li>
 			    </ul>
+			    <div ng-show="$ctrl.currentUser == $ctrl.story.owner.id">
+			    	Things to invite other users go here!
+			    </div>
 			  </div>
 			</div>
 			<p style="white-space:pre-wrap;">{{$ctrl.story.description}}</p>

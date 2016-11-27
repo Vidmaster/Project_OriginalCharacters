@@ -115,16 +115,18 @@ public class StoryController {
 	}
 	
 	@RequestMapping(value="/api/stories/{id}/join", method=RequestMethod.POST)
-	public ResponseEntity<ServiceResponse> joinStory(@PathVariable("id") int id) {
-		Story story = storyDao.read(id);
+	public ResponseEntity<Object> joinStory(@PathVariable("id") int id) {
+		logger.debug("joinStory(): id=" + id);
 		
-		return new ResponseEntity<ServiceResponse>(new ServiceResponse("Joined", true), HttpStatus.OK);
+		Story story = storyDao.read(id);
+		if (story.isInviteOnly() || !story.isVisible()) {
+			return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
+		} else {
+			storyDao.joinStory(id, auth.getActiveUser());
+			
+			return new ResponseEntity<Object>(null, HttpStatus.OK);
+		}
 	}
-	
-//	@RequestMapping(value="/api/stories/{id}/contributors")
-//	public ResponseEntity<List<Integer>> getContributors(@PathVariable("id") int storyId) {
-//		return null;
-//	}
 	
 	@RequestMapping(value="/api/stories/{id}/contribute", method=RequestMethod.POST)
 	public ResponseEntity<Contribution> newContribution(@PathVariable("id") int storyId, @RequestParam("owner") int owner,

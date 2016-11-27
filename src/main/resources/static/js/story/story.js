@@ -1,9 +1,51 @@
-angular.module('storyDetail')
+angular.module('storyDetail', [])
   .component('storyNew', {
 	  templateUrl: '/js/story/story-new.template.html'
   })
   .component('storyEdit', {
 	  templateUrl: '/js/story/story-edit.template.html'
+  })
+  .component('storyDetail', {
+    templateUrl: '/js/story/story-detail.template.html',
+    controller: 'StoryDetailController'
+  })
+  .controller('StoryDetailController', function StoryDetailController($http, $routeParams, $location, $window, storyService, auth) {
+	  	var self = this;
+	    self.storyId = $routeParams.storyId;
+	    if (auth && auth.user && auth.user.principal) {
+	        self.currentUser = auth.user.principal.id;
+	    } else {
+	    	self.currentUser = -1;
+	    }
+	    
+	    $http.get('/api/stories/' + $routeParams.storyId).then(function (response) {
+	    	self.story = response.data;
+	        if (self.story) {
+	        	$http.get('/api/users/' + self.story.owner).then(function (response) {
+	        		self.story.owner = response.data;
+	        	});
+	        }
+	    });
+	    
+	    self.joinStory = function() {
+	    	if (self.currentUser == -1) {
+	    		$location.path("/login");
+	    	}
+	    	console.log('join story ' + self.story.id + ' as user ' + self.currentUser);
+	    	
+	    	storyService.joinStory(self.story.id, function() {
+	    		if (storyService.error) {
+	    			self.message = message;
+	    			self.error = true;
+	    		} else {
+	    			console.log('joined story');
+	    			self.error = false;
+	    			self.message = storyService.message;
+	    			$location.path("/home");
+	    		}
+	    	});
+	    }
+
   })
   .controller('StoryController', function($scope, $location, auth, storyService) {
 	  var self = this;
@@ -36,8 +78,8 @@ angular.module('storyDetail')
 		  });
 		  
 	  };
-	  $scope.newStory = newStory;
 	  
+	  $scope.newStory = newStory;
 	  
   })
   .controller('EditStoryController', function($scope, $location, $routeParams, auth, storyService) {
@@ -121,7 +163,6 @@ angular.module('storyDetail')
 			}).success(function(response) {
 				console.log('post success');
 			    console.log(response);
-			    console.log(data);
 			    self.message = "Story updated successfully";
 			    self.createdId = data.id;
 			    callback && callback();
@@ -143,6 +184,25 @@ angular.module('storyDetail')
 		};
 		
 		self.joinStory = function(id, callback) {
-			
+			console.log('joining story ' + id);
+			var path = '/api/stories/' + id + '/join'
+			$http({
+				method: 'POST',
+				url: path,
+				data: $.param(id),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(response) {
+				console.log('post success');
+			    console.log(response);
+			    self.message = "Successfully joined story";
+			    self.joined = id;
+			    callback && callback();
+			}).error(function(response) {
+				console.log('post error');
+				console.log(response);
+				self.message = "An error occurred. Please try again.";
+				self.error = true;
+				callback && callback();
+			});
 		}
   });
