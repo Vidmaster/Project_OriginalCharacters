@@ -1,6 +1,6 @@
 describe("App", function() {
 
-	beforeEach(module('search'));
+	beforeEach(module('app'));
 
     var $controller;
 	beforeEach(inject(function($injector) {
