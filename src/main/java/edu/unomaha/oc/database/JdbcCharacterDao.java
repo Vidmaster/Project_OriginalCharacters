@@ -53,7 +53,7 @@ public class JdbcCharacterDao implements CharacterDao {
 		paramMap.addValue("contribution", contribution);
 		
 		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM characters, CharacterToContribution ctc "
-				+ "WHERE ctc.character = character.id AND ctc.contribution = :contribution", paramMap, new CharacterRowMapper()); 
+				+ "WHERE ctc.original_character = characters.id AND ctc.contribution = :contribution", paramMap, new CharacterRowMapper()); 
 		
 		return characters;
 	}
@@ -66,7 +66,7 @@ public class JdbcCharacterDao implements CharacterDao {
 		paramMap.addValue("story", story);
 		
 		List<OriginalCharacter> characters = template.query("SELECT " + CHARACTER_FIELDS + " FROM characters, CharacterToStory cts "
-				+ "WHERE cts.character = characters.id AND cts.story = :story", paramMap, new CharacterRowMapper()); 
+				+ "WHERE cts.original_character = characters.id AND cts.story = :story", paramMap, new CharacterRowMapper()); 
 		
 		return characters;
 	}

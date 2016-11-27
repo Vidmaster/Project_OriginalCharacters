@@ -24,7 +24,10 @@ public class JdbcContributionDao implements ContributionDao {
 	@Autowired
 	private InvitationDao invitationDao;
 	
-	private static String CONTRIBUTION_FIELDS = "id, owner, story, order, title, body, status";
+	@Autowired
+	private CharacterDao characterDao;
+	
+	private static String CONTRIBUTION_FIELDS = "id, owner, story, ordering, title, body, status";
 	
 	@Override
 	public List<Contribution> searchByOwner(int owner) {
@@ -59,7 +62,10 @@ public class JdbcContributionDao implements ContributionDao {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
 		
-		return template.queryForObject("select " + CONTRIBUTION_FIELDS + " from contribution where id = :id", paramMap, new ContributionRowMapper());
+		Contribution contribution = template.queryForObject("select " + CONTRIBUTION_FIELDS + " from contribution where id = :id", paramMap, new ContributionRowMapper());
+		contribution.setCharacters(characterDao.searchByContribution(id));
+		
+		return contribution;
 	}
 
 	@Override
@@ -67,7 +73,10 @@ public class JdbcContributionDao implements ContributionDao {
 		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("id", id);
-		paramMap.addValue("updates", "stuff");
+		paramMap.addValue("title", contribution.getTitle());
+		paramMap.addValue("body", contribution.getBody());
+		contribution.setStatus(determineStatus(contribution));
+		paramMap.addValue("status", contribution.getStatus());
 		
 		Number rowsUpdated = template.update("UPDATE contribution SET title=:title, body=:body, status=:status WHERE id=:id ", paramMap);
 		
@@ -75,7 +84,7 @@ public class JdbcContributionDao implements ContributionDao {
 		List<OriginalCharacter> characters = contribution.getCharacters();
 		for (OriginalCharacter character : characters) {
 			paramMap.addValue("characterId", character.getId());
-			template.update("INSERT INTO CharacterToContribution original_character, contribution VALUES (:characterId, :id)", paramMap);
+			template.update("INSERT INTO CharacterToContribution (original_character, contribution) VALUES (:characterId, :id)", paramMap);
 		}
 		
 		return rowsUpdated;

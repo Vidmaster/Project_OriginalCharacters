@@ -8,7 +8,7 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">{{character.name}}  <a class="btn btn-primary" ng-show="character.owner = currentUser" href="#!/character/{{character.id}}/edit">Edit Character</a></h2>
+                    <h2 class="section-heading">{{character.name}}  <a class="btn btn-primary" ng-show="character.owner == currentUser" href="#!/character/{{character.id}}/edit">Edit Character</a></h2>
                     <p>Created by <a href="#!/users/{{character.dude.id}}">{{character.dude.username}}</a></p>
                     <h4>Appearance:</h4>
                     <p style="white-space:pre-wrap;">{{character.appearance}}</p>

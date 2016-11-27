@@ -14,7 +14,7 @@
 				
 				<ul class="characters">
 				  <li ng-repeat="character in $ctrl.user.characters">
-					{{character.name}}
+					<a href="#!/character/{{character.id}}">{{character.name}}</a>
 				  </li>
 				</ul>
 			</div>
@@ -39,8 +39,8 @@
 			
 			<h4>Contributions:</h4>
 			<ul ng-show="$ctrl.user.contributions.length">
-				<li ng-repeat="contribution in $ctrl.user.stories">
-					<a href="#!/contribution/{{contribution.id}}">{{contribution.title}}</a> in {{contribution.story.description}}
+				<li ng-repeat="contribution in $ctrl.user.contributions">
+					<a href="#!/contribution/{{contribution.id}}">{{contribution.title}}</a> in <a href="#!/story/{{contribution.story.id}}">{{contribution.story.title}}</a>
 				</li>
 			</ul>
 			<div ng-show="!$ctrl.user.contributions.length">

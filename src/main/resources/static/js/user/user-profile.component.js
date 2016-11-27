@@ -13,15 +13,28 @@ angular.
         	self.currentUser = -1;
         }
         
-        $http.get('/api/users/' + $routeParams.userId).then(function (response) {
+        $http.get('/api/users/' + $routeParams.userId).then(function(response) {
         	console.log(response);
         	self.user = response.data;
         	
         	if (self.user.id) {
-            	$http.get('/api/users/' + self.user.id + '/stories').then(function (response) {
+            	$http.get('/api/users/' + self.user.id + '/stories').then(function(response) {
             		console.log(response);
             		self.user.stories = response.data;
+            	});
+            	$http.get('/api/users/' + self.user.id + '/characters').then(function(response) {
+            		console.log(response);
+            		self.user.characters = response.data;
+            	});
+            	$http.get('/api/users/' + self.user.id + '/contributions').then(function(response) {
+            		console.log(response);
+            		self.user.contributions = response.data;
             		
+            		self.user.contributions.forEach(function(contribution) {
+            			$http.get('/api/stories/' + contribution.story).then(function(response) {
+            				contribution.story = response.data;
+            			});
+            		});
             	});
             }
         });

@@ -86,5 +86,12 @@ public class CharacterController {
 		return new ResponseEntity<OriginalCharacter>(character, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/api/users/{id}/characters", method=RequestMethod.GET)
+	public ResponseEntity<List<OriginalCharacter>> getCharactersByUser(@PathVariable("id") int id) {
+		List<OriginalCharacter> characters = characterDao.searchByOwner(id);
+		
+		return new ResponseEntity<List<OriginalCharacter>>(characters, HttpStatus.OK);
+	}
+	
 	
 }

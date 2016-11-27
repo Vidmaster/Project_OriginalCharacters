@@ -23,6 +23,7 @@ angular.module('story', [])
 	        if (self.story) {
 	        	$http.get('/api/users/' + self.story.owner).then(function (response) {
 	        		self.story.owner = response.data;
+	        		console.log(self.story);
 	        	});
 	        }
 	    });
@@ -246,17 +247,16 @@ angular.module('story')
 	.component('contributionNew', {
 		templateUrl: '/js/story/contribution-new.template.html'
 	})
+	.component('contributionEdit', {
+		templateUrl: '/js/story/contribution-edit.template.html'
+	})
 	.controller('ContributionController', function($scope, $routeParams, $location, $http, contributionService) {
 		var self=this;
 		$scope.formData = { };
 		
 		console.log('contribution controller');
 		
-		var loadTags = function(query) {
-			console.log(query);
-			return $http.get('/api/characters?name=' + query);
-		}
-		$scope.loadTags = loadTags;
+		$scope.loadTags = contributionService.loadTags;
 		
 		var newContribution = function(valid) {
 			console.log('new contribution');
@@ -280,8 +280,33 @@ angular.module('story')
 		}
 		$scope.newContribution = newContribution;
 	})
-	.controller('EditContributionController', function() {
+	.controller('EditContributionController', function($scope, $routeParams, $http, $location, contributionService) {
 		var self = this;
+		
+		contributionService.readContribution($routeParams.contributionId, function() {
+			console.log(contributionService.contribution);
+			$scope.formData = contributionService.contribution;
+		});
+		
+		$scope.loadTags = contributionService.loadTags;
+		
+		var updateContribution = function(valid) {
+			console.log('update contribution');
+			console.log($scope.formData);
+			contributionService.editContribution($scope.formData, function() {
+				console.log('edited contribution');
+				if (contributionService.error) {
+					$scope.error = true;
+					$scope.message = contributionService.message;
+				} else {
+					$scope.error = false;
+					$location.path("/story/" + contributionService.storyId);
+				}
+			});
+		};
+		
+		$scope.updateContribution = updateContribution;
+		
 	})
 	.service('contributionService', function($http) {
 		var self = this;
@@ -320,9 +345,10 @@ angular.module('story')
 		self.editContribution = function(data, callback) {
 			console.log(data);
 			self.error = false;
+			self.storyId = data.story;
 			$http({
 				method: 'PUT',
-				url: '/api/stories/' + data.story + '/' + data.id,
+				url: '/api/contributions/' + data.id,
 				data: angular.toJson(data),
 				headers: {'Content-Type': 'application/json'}
 			}).success(function(response) {
@@ -338,5 +364,10 @@ angular.module('story')
 				callback && callback();
 			});
 		};
+		
+		self.loadTags = function(query) {
+			console.log(query);
+			return $http.get('/api/characters?name=' + query);
+		}
 		
 	});

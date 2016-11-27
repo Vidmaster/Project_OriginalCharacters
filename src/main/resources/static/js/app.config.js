@@ -28,8 +28,11 @@ angular.module('originalCharactersApp')
 		when('/story/:storyId/contribute', {
 			template: '<contribution-new></contribution-new>'
 		}).
-		when('/stor/:storyId/join', {
-			template: '<story-join></story-join>'
+		when('/contribution/:contributionId', {
+			template: '<contribution-view></contribution-view>'
+		}).
+		when('/contribution/:contributionId/edit', {
+			template: '<contribution-edit></contribution-edit>'
 		}).
 		when('/story', {
 			template: '<story-new></story-new>',
@@ -63,6 +66,7 @@ angular.module('originalCharactersApp')
 	}
 ])
 	.controller('app', function($scope, $window, auth) {
+		console.log('instantiated app controller');
 		if (auth && auth.user) $scope.user = auth.user;
 		
 		$scope.logout = function() {

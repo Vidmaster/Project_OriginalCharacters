@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.unomaha.oc.database.CharacterRowMapper;
+import edu.unomaha.oc.database.ContributionRowMapper;
 import edu.unomaha.oc.database.StoryRowMapper;
+import edu.unomaha.oc.domain.Contribution;
 import edu.unomaha.oc.domain.OriginalCharacter;
 import edu.unomaha.oc.domain.Story;
 import edu.unomaha.oc.utilities.AuthUtilities;
@@ -71,7 +73,7 @@ public class DashboardController {
 		
 		String storiesSql = "SELECT " + STORY_FIELDS + " FROM story WHERE owner = :userId OR id in (SELECT story FROM UserToStory WHERE contributor = :userId) ORDER BY id DESC";
 		String charactersSql = "SELECT id, owner, name, appearance, personality, notes FROM characters WHERE owner = :userId ORDER BY name";
-		String contributionsSql = "SELECT id, owner, story, order, title, body, status FROM contribution WHERE owner = :userId";
+		String contributionsSql = "SELECT id, owner, story, ordering, title, body, status FROM contribution WHERE owner = :userId";
 		
 		paramMap.addValue("userId", id);
 		
@@ -80,9 +82,12 @@ public class DashboardController {
 			logger.debug("stories = " + Arrays.toString(stories.toArray()));
 			List<OriginalCharacter> characters = template.query(charactersSql, paramMap, new CharacterRowMapper());
 			logger.debug("characters = " + Arrays.toString(characters.toArray()));
+			List<Contribution> contributions = template.query(contributionsSql,  paramMap, new ContributionRowMapper());
+			logger.debug("contributions = " + Arrays.toString(contributions.toArray()));
 			
 			results.put("stories", stories);
 			results.put("characters", characters);
+			results.put("contributions", contributions);
 		} else {
 			results.put("message", "User is not authorized to access this resource");
 			status = HttpStatus.UNAUTHORIZED;

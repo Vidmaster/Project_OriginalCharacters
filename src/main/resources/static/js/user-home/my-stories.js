@@ -11,6 +11,14 @@ angular.module('myStories', [])
 	            	
 	            		self.stories = response.data.stories;
 	            		self.characters = response.data.characters;
+	            		self.contributions = response.data.contributions;
+	            		
+	            		self.contributions.forEach(function(contribution) {
+	            			$http.get('/api/stories/' + contribution.story).then(function(response) {
+	            				contribution.story = response.data;
+	            			});
+	            		});
+	            		
 	            		self.loading = false;
 	            	}, function(response, $window) {
 	            		console.log('error getting user dashboard');

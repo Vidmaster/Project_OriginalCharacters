@@ -152,6 +152,32 @@ public class StoryController {
 		}
 	}
 	
+	@RequestMapping(value="/api/contributions/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Contribution> editContribution(@PathVariable("id") int id, @RequestBody Contribution contribution) {
+		if (auth.isAuthorized(contribution.getOwner())) {
+			contributionDao.update(id, contribution);
+			
+			return new ResponseEntity<Contribution>(contribution, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Contribution>(contribution, HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@RequestMapping(value="/api/contributions/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Contribution> getContribution(@PathVariable("id") int id) {
+		Contribution contribution = contributionDao.read(id);
+		
+		return new ResponseEntity<Contribution>(contribution, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/api/users/{id}/contributions", method=RequestMethod.GET)
+	public ResponseEntity<List<Contribution>> getContributionsByUser(@PathVariable("id") int id) {
+		List<Contribution> contributions = contributionDao.searchByOwner(id);
+		
+		return new ResponseEntity<List<Contribution>>(contributions, HttpStatus.OK);
+	}
+	
+	
 	private boolean isContributor(int userId, int storyId) {
 		Story story = storyDao.read(storyId);
 		return (userId == story.getOwner()) || (story.getContributors().contains(userId));
