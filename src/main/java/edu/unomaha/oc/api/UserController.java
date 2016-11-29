@@ -20,6 +20,7 @@ import edu.unomaha.oc.utilities.AuthUtilities;
 
 @RestController
 public class UserController {
+	
 	@Autowired
 	private UserDao userDao;
 	

@@ -41,7 +41,7 @@ public class StoryController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value="/api/stories", method=RequestMethod.GET)
-	public ResponseEntity<List<Story>> searchStoriesByTitle(HttpServletRequest request, @RequestParam(value="title") String title) {
+	public ResponseEntity<List<Story>> searchStoriesByTitle(@RequestParam(value="title") String title) {
 		logger.debug("searchStoriesByTitle(): title=" + title);
 		
 		int owner = auth.getActiveUser();
@@ -75,6 +75,7 @@ public class StoryController {
 		Story story = new Story(-1, owner, title, description, genre, visible, inviteOnly);
 		
 		Number storyId = storyDao.create(story);
+		logger.debug(storyId.toString());
 		story.setId(storyId.intValue());
 		
 		logger.debug("createStory(): id=" + storyId);
